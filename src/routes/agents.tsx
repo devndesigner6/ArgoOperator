@@ -8,7 +8,7 @@ import { getMasumiRegistry, type MasumiRegistryEntry } from "../lib/masumi-regis
 import BlurText from "../components/react-bits/BlurText.jsx";
 import ShinyText from "../components/react-bits/ShinyText.jsx";
 import DecryptedText from "../components/react-bits/DecryptedText.jsx";
-import TiltedCard from "../components/react-bits/TiltedCard.jsx";
+import BorderGlow from "../components/react-bits/BorderGlow.jsx";
 
 export const Route = createFileRoute("/agents")({
   head: () => ({
@@ -77,21 +77,19 @@ function AgentsPage() {
         {AGENTS.map((a) => {
           const Icon = a.icon;
           return (
-            <TiltedCard
+            <BorderGlow
               key={a.id}
-              containerHeight="220px"
-              containerWidth="100%"
-              imageHeight="220px"
-              imageWidth="100%"
-              scaleOnHover={1.04}
-              rotateAmplitude={6}
-              showMobileWarning={false}
-              showTooltip={false}
+              glowColor="260 85 65"
+              backgroundColor="#0d0d0d"
+              borderRadius={12}
+              glowRadius={32}
+              edgeSensitivity={20}
+              colors={["#7C3AED", "#f472b6", "#06B6D4"]}
             >
               <Link
                 to="/agents/$agentId"
                 params={{ agentId: a.id }}
-                className="group flex h-full flex-col justify-between rounded-xl border border-white/5 bg-[#0d0d0d] p-6 transition hover:border-white/20"
+                className="group flex h-full flex-col justify-between rounded-xl p-6 transition"
               >
                 <div>
                   <div className="mb-4 flex items-center justify-between">
@@ -101,7 +99,7 @@ function AgentsPage() {
                     <span
                       className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider ${
                         a.status === "live"
-                          ? "bg-[color:var(--accent)]/15 text-[color:var(--accent)]"
+                           ? "bg-[color:var(--accent)]/15 text-[color:var(--accent)]"
                           : a.status === "beta"
                             ? "bg-yellow-400/10 text-yellow-300"
                             : "bg-white/5 text-white/40"
@@ -128,24 +126,22 @@ function AgentsPage() {
                   <ArrowRight className="h-3.5 w-3.5 text-white/40 transition group-hover:translate-x-0.5 group-hover:text-white" />
                 </div>
               </Link>
-            </TiltedCard>
+            </BorderGlow>
           );
         })}
 
         {liveExternal.map((e) => (
-          <TiltedCard
+          <BorderGlow
             key={e.did!}
-            containerHeight="220px"
-            containerWidth="100%"
-            imageHeight="220px"
-            imageWidth="100%"
-            scaleOnHover={1.04}
-            rotateAmplitude={6}
-            showMobileWarning={false}
-            showTooltip={false}
+            glowColor="260 85 65"
+            backgroundColor="#0d0d0d"
+            borderRadius={12}
+            glowRadius={32}
+            edgeSensitivity={20}
+            colors={["#7C3AED", "#f472b6", "#06B6D4"]}
           >
             <div
-              className="flex h-full flex-col justify-between rounded-xl border border-white/5 bg-[#0d0d0d] p-6 opacity-90 text-left"
+              className="flex h-full flex-col justify-between rounded-xl p-6 opacity-90 text-left"
               title="Discovered on the live Masumi Registry. Argo doesn't have an execution adapter for this agent yet."
             >
               <div>
@@ -168,7 +164,7 @@ function AgentsPage() {
                 {e.completed != null && <span>{e.completed} runs</span>}
               </div>
             </div>
-          </TiltedCard>
+          </BorderGlow>
         ))}
       </div>
 

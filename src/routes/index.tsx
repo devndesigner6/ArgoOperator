@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -19,11 +19,12 @@ import BlurText from "../components/react-bits/BlurText.jsx";
 import ShinyText from "../components/react-bits/ShinyText.jsx";
 import DecryptedText from "../components/react-bits/DecryptedText.jsx";
 import TiltedCard from "../components/react-bits/TiltedCard.jsx";
+import SpecularButton from "../components/react-bits/SpecularButton.jsx";
 
-const Strands = lazy(() => import("../components/Strands.jsx"));
+const Dither = lazy(() => import("../components/react-bits/Dither.jsx"));
 const DotField = lazy(() => import("../components/DotField.jsx"));
 
-const CARD_GLOW_COLORS = ["#eac83c", "#f5d76e", "#8b7a2a"];
+const CARD_GLOW_COLORS = ["#7C3AED", "#f472b6", "#06B6D4"];
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -74,25 +75,21 @@ function CodeChip({ children }: { children: React.ReactNode }) {
    ──────────────────────────────────────────────────────────────── */
 
 function Hero() {
+  const navigate = useNavigate();
   return (
     <section className="relative overflow-hidden bg-[#0a0a0a]">
-      <div className="pointer-events-none absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent_0%,black_18%,black_70%,transparent_100%)]">
+      <div className="absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent_0%,black_18%,black_70%,transparent_100%)]">
         <ClientOnly fallback={<div className="h-full w-full" />}>
           <Suspense fallback={<div className="h-full w-full" />}>
-            <Strands
-              colors={["#F97316", "#7C3AED", "#06B6D4"]}
-              count={3}
-              speed={0.5}
-              amplitude={1}
-              waviness={1}
-              thickness={0.7}
-              glow={2.6}
-              taper={3}
-              spread={1}
-              intensity={0.6}
-              saturation={1.5}
-              opacity={0.85}
-              scale={1.6}
+            <Dither
+              waveColor={[0.9, 0.45, 0.1]}
+              disableAnimation={false}
+              enableMouseInteraction
+              mouseRadius={0.4}
+              colorNum={4}
+              waveAmplitude={0.3}
+              waveFrequency={3}
+              waveSpeed={0.05}
             />
           </Suspense>
         </ClientOnly>
@@ -123,18 +120,28 @@ function Hero() {
         </p>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-          <Link
-            to="/mission/new"
-            className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-[13px] font-medium text-black transition hover:bg-white/90"
+          <SpecularButton
+            size="md"
+            radius={9999}
+            lineColor="#eac83c"
+            baseColor="#7C3AED"
+            intensity={1.0}
+            onClick={() => navigate({ to: "/mission/new" })}
           >
             Get started
-          </Link>
-          <a
-            href="#how"
-            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/50 px-6 py-3 text-[13px] font-medium text-white/90 backdrop-blur transition hover:bg-black/70"
+          </SpecularButton>
+          <SpecularButton
+            size="md"
+            radius={9999}
+            lineColor="#06B6D4"
+            baseColor="#333333"
+            intensity={0.65}
+            onClick={() => {
+              document.getElementById("how")?.scrollIntoView({ behavior: "smooth" });
+            }}
           >
             Learn more
-          </a>
+          </SpecularButton>
         </div>
       </div>
     </section>
@@ -650,7 +657,7 @@ function GuaranteesGrid() {
           </div>
         </div>
         <a
-          href="https://github.com/masumi-network"
+          href="https://github.com/devndesigner6/ArgoOperator"
           target="_blank"
           rel="noreferrer"
           className="inline-flex items-center gap-1 rounded-full border border-white/15 px-4 py-2 text-[12px] text-white/85 hover:bg-white/5"
@@ -860,7 +867,7 @@ function Closing() {
               Open playground <ArrowRight className="h-3.5 w-3.5" />
             </Link>
             <a
-              href="https://github.com/masumi-network"
+              href="https://github.com/devndesigner6/ArgoOperator"
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-6 py-3 text-[13px] font-medium text-white/85 hover:bg-white/[0.07]"
@@ -880,9 +887,7 @@ function Footer() {
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-14 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
           <div className="flex items-center gap-2 text-white">
-            <span className="grid h-6 w-6 place-items-center rounded bg-[color:var(--accent)]/15 text-[color:var(--accent)]">
-              <Wallet className="h-3.5 w-3.5" />
-            </span>
+            <img src="/logo.png" alt="Argo Logo" className="h-6 w-6" />
             <span className="text-[15px] font-semibold">Argo</span>
           </div>
           <p className="mt-4 max-w-xs text-[13px] leading-relaxed text-white/50">
@@ -903,7 +908,7 @@ function Footer() {
         <FooterCol
           title="Resources"
           items={[
-            { label: "GitHub", href: "https://github.com/masumi-network" },
+            { label: "GitHub", href: "https://github.com/devndesigner6/ArgoOperator" },
             { label: "Masumi Protocol", href: "https://masumi.network" },
             { label: "Cardano Preprod", href: "https://docs.cardano.org" },
           ]}

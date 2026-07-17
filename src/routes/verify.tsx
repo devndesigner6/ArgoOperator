@@ -8,7 +8,7 @@ import { AppShell } from "../components/app-shell";
 import BlurText from "../components/react-bits/BlurText.jsx";
 import ShinyText from "../components/react-bits/ShinyText.jsx";
 import DecryptedText from "../components/react-bits/DecryptedText.jsx";
-import TiltedCard from "../components/react-bits/TiltedCard.jsx";
+import BorderGlow from "../components/react-bits/BorderGlow.jsx";
 
 ed.hashes.sha512 = ((m: Uint8Array) => sha512(m)) as typeof ed.hashes.sha512;
 
@@ -151,17 +151,15 @@ function VerifyPage() {
         </div>
 
         <div className="h-fit">
-          <TiltedCard
-            containerHeight="310px"
-            containerWidth="100%"
-            imageHeight="310px"
-            imageWidth="100%"
-            scaleOnHover={1.03}
-            rotateAmplitude={5}
-            showMobileWarning={false}
-            showTooltip={false}
+          <BorderGlow
+            glowColor="260 85 65"
+            backgroundColor="#111111"
+            borderRadius={12}
+            glowRadius={40}
+            edgeSensitivity={25}
+            colors={["#7C3AED", "#f472b6", "#06B6D4"]}
           >
-            <aside className="flex h-full flex-col justify-between rounded-xl border border-white/10 bg-[#111] p-5 text-left">
+            <aside className="flex h-full flex-col justify-between rounded-xl p-5 text-left">
               <div>
                 <div className="font-mono text-[10px] uppercase tracking-widest text-white/40">
                   Verification
@@ -205,7 +203,7 @@ function VerifyPage() {
                 </Link>
               </div>
             </aside>
-          </TiltedCard>
+          </BorderGlow>
         </div>
       </div>
     </AppShell>

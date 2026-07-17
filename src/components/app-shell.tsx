@@ -1,17 +1,17 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useState, type ReactNode, lazy, Suspense } from "react";
-
-const GooeyNav = lazy(() => import("./GooeyNav.jsx"));
+import { motion } from "motion/react";
+import { Wallet, Github, ChevronDown, Bot, PlusCircle, Clock, ShieldCheck } from "lucide-react";
 
 const NAV_ITEMS = [
-  { label: "Agents", href: "/agents" },
-  { label: "New mission", href: "/mission/new" },
-  { label: "History", href: "/missions" },
-  { label: "Verify", href: "/verify" },
+  { label: "Agents", href: "/agents", icon: Bot },
+  { label: "New mission", href: "/mission/new", icon: PlusCircle },
+  { label: "History", href: "/missions", icon: Clock },
+  { label: "Verify", href: "/verify", icon: ShieldCheck },
 ];
-import { Wallet, Github, ChevronDown } from "lucide-react";
 import { ErrorBoundary } from "./error-boundary";
 import { useWallet, formatAda } from "../lib/wallet-context";
+import SpecularButton from "./react-bits/SpecularButton.jsx";
 
 function WalletButton() {
   const { address, available, connect, disconnect, connecting, error, lovelace, networkId, name } = useWallet();
@@ -72,14 +72,22 @@ function WalletButton() {
 
   return (
     <div className="relative">
-      <button
+      <SpecularButton
+        size="sm"
+        radius={9999}
+        lineColor="#eac83c"
+        baseColor="#ffffff"
+        intensity={0.85}
+        followMouse
         onClick={() => setOpen((v) => !v)}
         disabled={connecting}
-        className="inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-[12px] font-medium text-white/90 transition hover:bg-white/10 disabled:opacity-50"
+        className="disabled:opacity-50"
       >
-        <Wallet className="h-3.5 w-3.5" />
-        {connecting ? "Connecting…" : "Connect wallet"}
-      </button>
+        <span className="flex items-center gap-1.5">
+          <Wallet className="h-3.5 w-3.5" />
+          {connecting ? "Connecting…" : "Connect wallet"}
+        </span>
+      </SpecularButton>
       {open && (
         <div className="absolute right-0 top-full z-50 mt-2 w-64 overflow-hidden rounded-lg border border-white/10 bg-[#111] p-1 shadow-xl">
           <div className="px-3 py-2 font-mono text-[10px] uppercase tracking-widest text-white/40">
@@ -121,56 +129,59 @@ function WalletButton() {
 }
 
 export function AppNav() {
-  const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const activeIndex = NAV_ITEMS.findIndex(
-    (i) => pathname === i.href || pathname.startsWith(i.href + "/"),
-  );
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/5 bg-[#0a0a0a]/85 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 md:px-6">
-        <Link to="/" className="flex shrink-0 items-center" aria-label="Argo home">
-          <img src="/logo.png" alt="Argo" className="h-8 w-8" />
-        </Link>
-        <div className="hidden min-w-0 flex-1 justify-center md:flex">
+    <nav className="fixed top-6 left-1/2 z-50 -translate-x-1/2 flex items-center gap-1.5 rounded-full border border-white/10 bg-black/60 px-2 py-1.5 backdrop-blur-xl shadow-2xl">
+      {/* logo */}
+      <Link to="/" className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full hover:bg-white/5 transition pl-1" aria-label="Argo home">
+        <img src="/logo.png" alt="Argo" className="h-5 w-5" />
+      </Link>
 
-          <Suspense
-            fallback={
-              <nav className="flex items-center gap-6 text-[13px] text-white/60">
-                {NAV_ITEMS.map((i) => (
-                  <span key={i.href}>{i.label}</span>
-                ))}
-              </nav>
-            }
-          >
-            <GooeyNav
-              items={NAV_ITEMS}
-              initialActiveIndex={activeIndex}
-              particleCount={15}
-              particleDistances={[80, 10]}
-              particleR={100}
-              animationTime={600}
-              timeVariance={300}
-              colors={[1, 2, 3, 1, 2, 3, 1, 4]}
-              onItemSelect={(item) => navigate({ to: item.href })}
-            />
-          </Suspense>
-        </div>
-        <div className="flex items-center gap-2">
-          <a
-            href="https://github.com/masumi-network"
-            target="_blank"
-            rel="noreferrer"
-            className="hidden items-center gap-1.5 rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-[12px] text-white/80 transition hover:bg-white/10 sm:inline-flex"
-          >
-            <Github className="h-3.5 w-3.5" />
-            GitHub
-          </a>
-          <WalletButton />
-        </div>
+      {/* nav items list */}
+      <div className="flex items-center gap-0.5">
+        {NAV_ITEMS.map((item) => {
+          const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
+          const Icon = item.icon;
+          return (
+            <Link
+              key={item.href}
+              to={item.href}
+              className={`relative flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] md:text-[12px] font-medium transition-colors duration-300 ${
+                isActive ? "text-black" : "text-white/60 hover:text-white"
+              }`}
+            >
+              {isActive && (
+                <motion.div
+                  layoutId="active-tab"
+                  className="absolute inset-0 rounded-full bg-white"
+                  transition={{ type: "spring", stiffness: 350, damping: 28 }}
+                />
+              )}
+              <Icon className="relative z-10 h-3.5 w-3.5" />
+              <span className="relative z-10 hidden sm:inline">{item.label}</span>
+            </Link>
+          );
+        })}
       </div>
-    </header>
+
+      {/* divider */}
+      <div className="mx-1 h-5 w-px bg-white/15" />
+
+      {/* actions */}
+      <div className="flex items-center gap-1">
+        <a
+          href="https://github.com/devndesigner6/ArgoOperator"
+          target="_blank"
+          rel="noreferrer"
+          className="flex h-7 w-7 items-center justify-center rounded-full text-white/55 transition hover:bg-white/5 hover:text-white"
+          title="GitHub"
+        >
+          <Github className="h-4 w-4" />
+        </a>
+        <WalletButton />
+      </div>
+    </nav>
   );
 }
 
@@ -178,7 +189,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white/90 [font-family:var(--font-display)] selection:bg-[color:var(--accent)] selection:text-black">
       <AppNav />
-      <main className="mx-auto max-w-7xl px-6 py-10">
+      <main className="mx-auto max-w-7xl px-6 pt-28 pb-10">
         <ErrorBoundary boundary="app_shell_main">{children}</ErrorBoundary>
       </main>
     </div>

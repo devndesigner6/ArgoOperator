@@ -8,7 +8,8 @@ import { AGENTS, getAgent } from "../lib/agents-data";
 import BlurText from "../components/react-bits/BlurText.jsx";
 import ShinyText from "../components/react-bits/ShinyText.jsx";
 import DecryptedText from "../components/react-bits/DecryptedText.jsx";
-import TiltedCard from "../components/react-bits/TiltedCard.jsx";
+import BorderGlow from "../components/react-bits/BorderGlow.jsx";
+import SpecularButton from "../components/react-bits/SpecularButton.jsx";
 import { saveMission } from "../lib/mission-store";
 import { useWallet, formatAda } from "../lib/wallet-context";
 import { payAndCommitMission } from "../lib/cardano-pay";
@@ -179,76 +180,83 @@ function NewMission() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-[1fr_360px]">
-        <div className="rounded-xl border border-white/10 bg-[#111] p-6">
-          <label className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">
-            Agent
-          </label>
-          <div className="mt-3 grid gap-2 sm:grid-cols-2">
-            {live.map((a) => {
-              const active = a.id === agentId;
-              const Icon = a.icon;
-              return (
-                <button
-                  key={a.id}
-                  onClick={() => setAgentId(a.id)}
-                  className={`flex items-start gap-3 rounded-lg border p-3 text-left transition ${
-                    active
-                      ? "border-[color:var(--accent)] bg-[color:var(--accent)]/10"
-                      : "border-white/10 bg-white/5 hover:bg-white/10"
-                  }`}
-                >
-                  <div
-                    className={`inline-flex h-9 w-9 items-center justify-center rounded-md ${
+        <BorderGlow
+          glowColor="260 85 65"
+          backgroundColor="#111111"
+          borderRadius={12}
+          glowRadius={36}
+          edgeSensitivity={20}
+          colors={["#7C3AED", "#f472b6", "#06B6D4"]}
+        >
+          <div className="p-6">
+            <label className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">
+              Agent
+            </label>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2">
+              {live.map((a) => {
+                const active = a.id === agentId;
+                const Icon = a.icon;
+                return (
+                  <button
+                    key={a.id}
+                    onClick={() => setAgentId(a.id)}
+                    className={`flex items-start gap-3 rounded-lg border p-3 text-left transition ${
                       active
-                        ? "bg-[color:var(--accent)] text-black"
-                        : "bg-white/10 text-white"
+                        ? "border-[color:var(--accent)] bg-[color:var(--accent)]/10"
+                        : "border-white/10 bg-white/5 hover:bg-white/10"
                     }`}
                   >
-                    <Icon className="h-4 w-4" />
-                  </div>
-                  <div className="min-w-0">
-                    <div className="text-sm font-medium text-white">{a.name}</div>
-                    <div className="mt-0.5 font-mono text-[11px] text-white/50">
-                      {a.priceAda} ₳ {a.priceUnit}
+                    <div
+                      className={`inline-flex h-9 w-9 items-center justify-center rounded-md ${
+                        active
+                          ? "bg-[color:var(--accent)] text-black"
+                          : "bg-white/10 text-white"
+                      }`}
+                    >
+                      <Icon className="h-4 w-4" />
                     </div>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
+                    <div className="min-w-0">
+                      <div className="text-sm font-medium text-white">{a.name}</div>
+                      <div className="mt-0.5 font-mono text-[11px] text-white/50">
+                        {a.priceAda} ₳ {a.priceUnit}
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
 
-          <label className="mt-6 block font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">
-            Mission prompt
-          </label>
-          <textarea
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            rows={6}
-            className="mt-3 w-full resize-none rounded-lg border border-white/10 bg-[#0a0a0a] px-4 py-3 font-mono text-sm text-white placeholder:text-white/30 focus:border-[color:var(--accent)] focus:outline-none"
-            placeholder={
-              agentId === "url-scout"
-                ? "Paste a URL (https://…) and any extra context. URL Scout will open it in a real browser."
-                : "Describe the web task in plain English."
-            }
-          />
-          <p className="mt-2 text-xs text-white/50">
-            Be specific. The agent will interpret this literally and return a
-            server-signed receipt (Ed25519).
-          </p>
-        </div>
+            <label className="mt-6 block font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">
+              Mission prompt
+            </label>
+            <textarea
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              rows={6}
+              className="mt-3 w-full resize-none rounded-lg border border-white/10 bg-[#0a0a0a] px-4 py-3 font-mono text-sm text-white placeholder:text-white/30 focus:border-[color:var(--accent)] focus:outline-none"
+              placeholder={
+                agentId === "url-scout"
+                  ? "Paste a URL (https://…) and any extra context. URL Scout will open it in a real browser."
+                  : "Describe the web task in plain English."
+              }
+            />
+            <p className="mt-2 text-xs text-white/50">
+              Be specific. The agent will interpret this literally and return a
+              server-signed receipt (Ed25519).
+            </p>
+          </div>
+        </BorderGlow>
 
         <div className="h-fit">
-          <TiltedCard
-            containerHeight="440px"
-            containerWidth="100%"
-            imageHeight="440px"
-            imageWidth="100%"
-            scaleOnHover={1.03}
-            rotateAmplitude={5}
-            showMobileWarning={false}
-            showTooltip={false}
+          <BorderGlow
+            glowColor="260 85 65"
+            backgroundColor="#111111"
+            borderRadius={12}
+            glowRadius={44}
+            edgeSensitivity={25}
+            colors={["#7C3AED", "#f472b6", "#06B6D4"]}
           >
-            <aside className="flex h-full flex-col justify-between rounded-xl border border-white/10 bg-[#111] p-6 text-left">
+            <aside className="flex h-full flex-col justify-between rounded-xl p-6 text-left">
               <div>
                 <div className="font-mono text-[10px] uppercase tracking-widest text-white/40">
                   Escrow quote
@@ -258,7 +266,6 @@ function NewMission() {
                     <DecryptedText
                       key={agent?.priceAda ?? 0}
                       text={String(agent?.priceAda ?? 0)}
-                      animateOn="view"
                       revealDirection="center"
                       sequential
                     />
@@ -312,23 +319,30 @@ function NewMission() {
               </div>
 
               <div>
-                <button
+                <SpecularButton
+                  size="md"
+                  radius={8}
+                  lineColor={walletReady ? "#eac83c" : "#06B6D4"}
+                  baseColor="#7C3AED"
+                  intensity={1.0}
                   onClick={submit}
                   disabled={submitting || !agent || prompt.trim().length < 4}
-                  className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-md bg-[color:var(--accent)] px-4 py-3 text-sm font-medium text-black transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-40"
+                  className="mt-6 w-full font-medium disabled:opacity-40 disabled:cursor-not-allowed"
                 >
-                  {walletReady ? <ShieldCheck className="h-4 w-4" /> : <Wallet className="h-4 w-4" />}
-                  {submitting
-                    ? stage === "sign"
-                      ? "Signing intent…"
-                      : stage === "pay"
-                        ? "Submitting Preprod tx…"
-                        : "Launching…"
-                    : walletReady
-                      ? "Sign, pay & launch"
-                      : "Launch without wallet"}
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </button>
+                  <span className="flex items-center gap-2 justify-center">
+                    {walletReady ? <ShieldCheck className="h-4 w-4" /> : <Wallet className="h-4 w-4" />}
+                    {submitting
+                      ? stage === "sign"
+                        ? "Signing intent…"
+                        : stage === "pay"
+                          ? "Submitting Preprod tx…"
+                          : "Launching…"
+                      : walletReady
+                        ? "Sign, pay & launch"
+                        : "Launch without wallet"}
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </span>
+                </SpecularButton>
                 <p className="mt-3 text-[10px] leading-normal text-white/55">
                   {walletReady
                     ? "Wallet will request: (1) sign intent, (2) sign Preprod tx (~1.5 ADA with mission metadata). Runner executes once confirmed."
@@ -336,7 +350,7 @@ function NewMission() {
                 </p>
               </div>
             </aside>
-          </TiltedCard>
+          </BorderGlow>
         </div>
       </div>
     </AppShell>

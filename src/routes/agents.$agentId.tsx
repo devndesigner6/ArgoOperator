@@ -5,7 +5,8 @@ import { getAgent } from "../lib/agents-data";
 import BlurText from "../components/react-bits/BlurText.jsx";
 import ShinyText from "../components/react-bits/ShinyText.jsx";
 import DecryptedText from "../components/react-bits/DecryptedText.jsx";
-import TiltedCard from "../components/react-bits/TiltedCard.jsx";
+import BorderGlow from "../components/react-bits/BorderGlow.jsx";
+import SpecularButton from "../components/react-bits/SpecularButton.jsx";
 
 export const Route = createFileRoute("/agents/$agentId")({
   loader: ({ params }) => {
@@ -87,6 +88,7 @@ export const Route = createFileRoute("/agents/$agentId")({
 
 
 function AgentProfile() {
+  const router = useRouter();
   const { agentId } = Route.useLoaderData();
   const agent = getAgent(agentId);
   if (!agent) throw notFound();
@@ -161,17 +163,15 @@ function AgentProfile() {
         </div>
 
         <div className="sticky top-24 h-fit">
-          <TiltedCard
-            containerHeight="285px"
-            containerWidth="100%"
-            imageHeight="285px"
-            imageWidth="100%"
-            scaleOnHover={1.03}
-            rotateAmplitude={5}
-            showMobileWarning={false}
-            showTooltip={false}
+          <BorderGlow
+            glowColor="260 85 65"
+            backgroundColor="#111111"
+            borderRadius={12}
+            glowRadius={40}
+            edgeSensitivity={25}
+            colors={["#7C3AED", "#f472b6", "#06B6D4"]}
           >
-            <aside className="flex h-full flex-col justify-between rounded-xl border border-white/10 bg-[#111] p-6 text-left">
+            <aside className="flex h-full flex-col justify-between rounded-xl p-6 text-left">
               <div>
                 <div className="flex items-baseline justify-between">
                   <span className="font-mono text-[10px] uppercase tracking-widest text-white/40">
@@ -203,25 +203,36 @@ function AgentProfile() {
               </div>
 
               {isLive ? (
-                <Link
-                  to="/mission/new"
-                  search={{ agent: agent.id }}
-                  className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-md bg-[color:var(--accent)] px-4 py-3 text-sm font-medium text-black transition hover:brightness-110"
+                <SpecularButton
+                  size="md"
+                  radius={8}
+                  lineColor="#eac83c"
+                  baseColor="#7C3AED"
+                  intensity={1.0}
+                  onClick={() => router.navigate({ to: "/mission/new", search: { agent: agent.id } })}
+                  className="mt-5 w-full font-medium"
                 >
-                  <Wallet className="h-4 w-4" />
-                  Hire this agent
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </Link>
+                  <span className="flex items-center gap-2">
+                    <Wallet className="h-4 w-4" />
+                    Hire this agent
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </span>
+                </SpecularButton>
               ) : (
-                <button
+                <SpecularButton
                   disabled
-                  className="mt-5 inline-flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-md border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-white/40"
+                  size="md"
+                  radius={8}
+                  lineColor="#ffffff"
+                  baseColor="#333333"
+                  intensity={0.5}
+                  className="mt-5 w-full font-medium opacity-50 cursor-not-allowed"
                 >
                   Coming soon
-                </button>
+                </SpecularButton>
               )}
             </aside>
-          </TiltedCard>
+          </BorderGlow>
         </div>
       </div>
     </AppShell>
@@ -240,19 +251,28 @@ function Stat({
   mono?: boolean;
 }) {
   return (
-    <div className="bg-[#0d0d0d] border border-white/5 rounded-xl p-4 text-left">
-      <div className="flex items-center gap-1.5 text-[color:var(--accent)]">
-        {icon}
-        <span className="font-mono text-[10px] uppercase tracking-widest text-white/40">
-          {label}
-        </span>
+    <BorderGlow
+      glowColor="260 85 65"
+      backgroundColor="#0d0d0d"
+      borderRadius={12}
+      glowRadius={28}
+      edgeSensitivity={20}
+      colors={["#7C3AED", "#f472b6", "#06B6D4"]}
+    >
+      <div className="p-4 text-left">
+        <div className="flex items-center gap-1.5 text-[color:var(--accent)]">
+          {icon}
+          <span className="font-mono text-[10px] uppercase tracking-widest text-white/40">
+            {label}
+          </span>
+        </div>
+        <div
+          className={`mt-2 text-sm text-white ${mono ? "font-mono truncate" : "font-medium"}`}
+          title={value}
+        >
+          <DecryptedText text={value} animateOn="view" revealDirection="center" sequential />
+        </div>
       </div>
-      <div
-        className={`mt-2 text-sm text-white ${mono ? "font-mono truncate" : "font-medium"}`}
-        title={value}
-      >
-        <DecryptedText text={value} animateOn="view" revealDirection="center" sequential />
-      </div>
-    </div>
+    </BorderGlow>
   );
 }
