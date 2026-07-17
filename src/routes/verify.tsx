@@ -5,6 +5,10 @@ import { sha256 } from "@noble/hashes/sha2.js";
 import { sha512 } from "@noble/hashes/sha2.js";
 import { ShieldCheck, ShieldX, Upload } from "lucide-react";
 import { AppShell } from "../components/app-shell";
+import BlurText from "../components/react-bits/BlurText.jsx";
+import ShinyText from "../components/react-bits/ShinyText.jsx";
+import DecryptedText from "../components/react-bits/DecryptedText.jsx";
+import TiltedCard from "../components/react-bits/TiltedCard.jsx";
 
 ed.hashes.sha512 = ((m: Uint8Array) => sha512(m)) as typeof ed.hashes.sha512;
 
@@ -111,9 +115,12 @@ function VerifyPage() {
         <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">
           Proof-of-Execution · Ed25519
         </span>
-        <h1 className="mt-3 text-[40px] font-semibold leading-[1.02] tracking-[-0.02em] md:text-[56px]">
-          Verify a{" "}
-          <span className="[font-family:var(--font-serif)] italic font-normal">receipt</span>.
+        <h1 className="mt-3 text-[40px] font-semibold leading-[1.02] tracking-[-0.02em] md:text-[56px] flex flex-wrap items-center gap-x-3">
+          <BlurText text="Verify a" delay={100} animateBy="words" />
+          <span className="[font-family:var(--font-serif)] italic font-normal">
+            <DecryptedText text="receipt" animateOn="view" revealDirection="center" sequential />
+          </span>
+          <BlurText text="." delay={200} animateBy="words" />
         </h1>
         <p className="mt-4 text-[15px] leading-relaxed text-white/60">
           Paste a Argo PoE artifact below (or upload the JSON). Verification runs
@@ -143,61 +150,75 @@ function VerifyPage() {
           />
         </div>
 
-        <aside className="h-fit rounded-xl border border-white/10 bg-[#111] p-5">
-          <div className="font-mono text-[10px] uppercase tracking-widest text-white/40">
-            Verification
-          </div>
-          {result.kind === "idle" && (
-            <div className="mt-4 text-sm text-white/50">
-              Paste a receipt to check its signature.
-            </div>
-          )}
-          {result.kind === "ok" && (
-            <div className="mt-4">
-              <div className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)]/15 px-3 py-1 text-[color:var(--accent)]">
-                <ShieldCheck className="h-4 w-4" />
-                <span className="text-sm font-medium">Signature valid</span>
+        <div className="h-fit">
+          <TiltedCard
+            containerHeight="310px"
+            containerWidth="100%"
+            imageHeight="310px"
+            imageWidth="100%"
+            scaleOnHover={1.03}
+            rotateAmplitude={5}
+            showMobileWarning={false}
+            showTooltip={false}
+          >
+            <aside className="flex h-full flex-col justify-between rounded-xl border border-white/10 bg-[#111] p-5 text-left">
+              <div>
+                <div className="font-mono text-[10px] uppercase tracking-widest text-white/40">
+                  Verification
+                </div>
+                {result.kind === "idle" && (
+                  <div className="mt-4 text-sm text-white/50">
+                    Paste a receipt to check its signature.
+                  </div>
+                )}
+                {result.kind === "ok" && (
+                  <div className="mt-4 animate-fade-in">
+                    <div className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)]/15 px-3 py-1 text-[color:var(--accent)]">
+                      <ShieldCheck className="h-4 w-4" />
+                      <span className="text-sm font-medium">Signature valid</span>
+                    </div>
+                    <dl className="mt-4 space-y-2 text-xs text-white/60">
+                      <Row k="mission" v={result.missionId} />
+                      <Row k="agent" v={result.agentId} />
+                      <Row k="publicKey" v={result.publicKey} truncate />
+                      <Row k="digest" v={result.digest} truncate />
+                    </dl>
+                    <p className="mt-4 text-[11px] text-white/55 leading-normal">
+                      Canonical payload matches digest, and signature checks out against the agent DID.
+                    </p>
+                  </div>
+                )}
+                {result.kind === "bad" && (
+                  <div className="mt-4 animate-fade-in">
+                    <div className="inline-flex items-center gap-2 rounded-full bg-red-500/15 px-3 py-1 text-red-400">
+                      <ShieldX className="h-4 w-4" />
+                      <span className="text-sm font-medium">Invalid</span>
+                    </div>
+                    <p className="mt-3 text-xs leading-normal text-red-300/90">{result.reason}</p>
+                  </div>
+                )}
               </div>
-              <dl className="mt-4 space-y-2 text-xs text-white/60">
-                <Row k="mission" v={result.missionId} />
-                <Row k="agent" v={result.agentId} />
-                <Row k="publicKey" v={result.publicKey} truncate />
-                <Row k="digest" v={result.digest} truncate />
-              </dl>
-              <p className="mt-4 text-[11px] text-white/50">
-                The canonical payload matches its SHA-256 digest, and the Ed25519
-                signature checks out against Argo&rsquo;s signing key.
-              </p>
-            </div>
-          )}
-          {result.kind === "bad" && (
-            <div className="mt-4">
-              <div className="inline-flex items-center gap-2 rounded-full bg-red-500/15 px-3 py-1 text-red-400">
-                <ShieldX className="h-4 w-4" />
-                <span className="text-sm font-medium">Invalid</span>
+              <div className="border-t border-white/10 pt-3 text-[11px] text-white/50">
+                Need a receipt? Run from{" "}
+                <Link to="/mission/new" className="text-[color:var(--accent)] hover:underline">
+                  /mission/new
+                </Link>
               </div>
-              <p className="mt-3 text-xs text-red-300/90">{result.reason}</p>
-            </div>
-          )}
-          <div className="mt-6 border-t border-white/10 pt-4 text-[11px] text-white/50">
-            Need a receipt? Run a mission from{" "}
-            <Link to="/mission/new" className="text-[color:var(--accent)] hover:underline">
-              /mission/new
-            </Link>{" "}
-            and download the PoE artifact when it completes.
-          </div>
-        </aside>
+            </aside>
+          </TiltedCard>
+        </div>
       </div>
     </AppShell>
   );
 }
 
 function Row({ k, v, truncate }: { k: string; v: string; truncate?: boolean }) {
+  const displayVal = truncate && v.length > 20 ? `${v.slice(0, 10)}…${v.slice(-8)}` : v;
   return (
-    <div className="flex justify-between gap-3">
+    <div className="flex justify-between gap-3 text-left">
       <dt className="font-mono text-white/40">{k}</dt>
       <dd className={`font-mono text-white/80 ${truncate ? "truncate" : ""}`} title={v}>
-        {truncate && v.length > 20 ? `${v.slice(0, 10)}…${v.slice(-8)}` : v}
+        <DecryptedText key={v} text={displayVal} animateOn="view" revealDirection="center" sequential />
       </dd>
     </div>
   );

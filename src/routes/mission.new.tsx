@@ -5,6 +5,10 @@ import { z } from "zod";
 import { ArrowRight, Wallet, ShieldCheck } from "lucide-react";
 import { AppShell } from "../components/app-shell";
 import { AGENTS, getAgent } from "../lib/agents-data";
+import BlurText from "../components/react-bits/BlurText.jsx";
+import ShinyText from "../components/react-bits/ShinyText.jsx";
+import DecryptedText from "../components/react-bits/DecryptedText.jsx";
+import TiltedCard from "../components/react-bits/TiltedCard.jsx";
 import { saveMission } from "../lib/mission-store";
 import { useWallet, formatAda } from "../lib/wallet-context";
 import { payAndCommitMission } from "../lib/cardano-pay";
@@ -165,12 +169,12 @@ function NewMission() {
         <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">
           Step 1 · Compose
         </span>
-        <h1 className="mt-3 text-[40px] font-semibold leading-[1.02] tracking-[-0.02em] text-white md:text-[56px]">
-          New{" "}
+        <h1 className="mt-3 text-[40px] font-semibold leading-[1.02] tracking-[-0.02em] text-white md:text-[56px] flex flex-wrap items-center gap-x-3">
+          <BlurText text="New" delay={100} animateBy="words" />
           <span className="[font-family:var(--font-serif)] italic font-normal">
-            mission
+            <DecryptedText text="mission" animateOn="view" revealDirection="center" sequential />
           </span>
-          .
+          <BlurText text="." delay={200} animateBy="words" />
         </h1>
       </div>
 
@@ -233,84 +237,107 @@ function NewMission() {
           </p>
         </div>
 
-        <aside className="h-fit rounded-xl border border-white/10 bg-[#111] p-6">
-          <div className="font-mono text-[10px] uppercase tracking-widest text-white/40">
-            Escrow quote
-          </div>
-          <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-[40px] font-semibold tracking-tight text-white">
-              {agent?.priceAda ?? 0}
-            </span>
-            <span className="text-[color:var(--accent)]">₳</span>
-            <span className="text-xs text-white/50">{agent?.priceUnit ?? ""}</span>
-          </div>
-          <ul className="mt-4 space-y-2 text-xs text-white/60">
-            <li className="flex justify-between">
-              <span>Wallet</span>
-              <span className="font-mono text-white">
-                {walletReady ? `${wallet.address!.slice(0, 8)}…` : "not connected"}
-              </span>
-            </li>
-            <li className="flex justify-between">
-              <span>Balance</span>
-              <span className="font-mono text-white">
-                {walletReady ? `${formatAda(wallet.lovelace)} ₳` : "—"}
-              </span>
-            </li>
-            <li className="flex justify-between">
-              <span>Network</span>
-              <span className="font-mono text-white">
-                {wallet.networkId === 0 ? "Preprod" : wallet.networkId === 1 ? "Mainnet" : "—"}
-              </span>
-            </li>
-            <li className="flex justify-between">
-              <span>Intent sig</span>
-              <span className="font-mono text-white">CIP-30 signData</span>
-            </li>
-          </ul>
-
-          {!walletReady && (
-            <p className="mt-4 rounded-md border border-yellow-500/20 bg-yellow-500/5 px-3 py-2 text-[11px] text-yellow-200/80">
-              Connect a Cardano wallet in the top-right to sign the mission
-              intent. You can run without a wallet, but the receipt won&rsquo;t be
-              tied to your address.
-            </p>
-          )}
-          {walletReady && !hasFunds && (
-            <p className="mt-4 rounded-md border border-red-500/20 bg-red-500/5 px-3 py-2 text-[11px] text-red-300">
-              Wallet balance is below the quoted price. Top up on Preprod faucet
-              to run a paid mission end-to-end.
-            </p>
-          )}
-          {signError && (
-            <p className="mt-4 rounded-md border border-red-500/20 bg-red-500/10 px-3 py-2 text-[11px] text-red-300">
-              {signError}
-            </p>
-          )}
-
-          <button
-            onClick={submit}
-            disabled={submitting || !agent || prompt.trim().length < 4}
-            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-md bg-[color:var(--accent)] px-4 py-3 text-sm font-medium text-black transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-40"
+        <div className="h-fit">
+          <TiltedCard
+            containerHeight="440px"
+            containerWidth="100%"
+            imageHeight="440px"
+            imageWidth="100%"
+            scaleOnHover={1.03}
+            rotateAmplitude={5}
+            showMobileWarning={false}
+            showTooltip={false}
           >
-            {walletReady ? <ShieldCheck className="h-4 w-4" /> : <Wallet className="h-4 w-4" />}
-            {submitting
-              ? stage === "sign"
-                ? "Signing intent…"
-                : stage === "pay"
-                  ? "Submitting Preprod tx…"
-                  : "Launching…"
-              : walletReady
-                ? "Sign, pay & launch"
-                : "Launch without wallet"}
-            <ArrowRight className="h-3.5 w-3.5" />
-          </button>
-          <p className="mt-3 text-[11px] text-white/50">
-            {walletReady
-              ? "Your wallet will pop up twice: (1) sign the intent, (2) sign a real Preprod tx (~1.5 ADA to self, with mission metadata). Server refuses to run until the tx confirms on-chain."
-              : "Skip wallet signing for a quick demo run. The Ed25519 server receipt still applies, but nothing goes on-chain."}
-          </p>
-        </aside>
+            <aside className="flex h-full flex-col justify-between rounded-xl border border-white/10 bg-[#111] p-6 text-left">
+              <div>
+                <div className="font-mono text-[10px] uppercase tracking-widest text-white/40">
+                  Escrow quote
+                </div>
+                <div className="mt-2 flex items-baseline gap-2">
+                  <span className="text-[40px] font-semibold tracking-tight text-white">
+                    <DecryptedText
+                      key={agent?.priceAda ?? 0}
+                      text={String(agent?.priceAda ?? 0)}
+                      animateOn="view"
+                      revealDirection="center"
+                      sequential
+                    />
+                  </span>
+                  <span className="text-[color:var(--accent)]">₳</span>
+                  <span className="text-xs text-white/50">{agent?.priceUnit ?? ""}</span>
+                </div>
+                <ul className="mt-4 space-y-2 text-xs text-white/60">
+                  <li className="flex justify-between">
+                    <span>Wallet</span>
+                    <span className="font-mono text-white">
+                      {walletReady ? `${wallet.address!.slice(0, 8)}…` : "not connected"}
+                    </span>
+                  </li>
+                  <li className="flex justify-between">
+                    <span>Balance</span>
+                    <span className="font-mono text-white">
+                      {walletReady ? `${formatAda(wallet.lovelace)} ₳` : "—"}
+                    </span>
+                  </li>
+                  <li className="flex justify-between">
+                    <span>Network</span>
+                    <span className="font-mono text-white">
+                      {wallet.networkId === 0 ? "Preprod" : wallet.networkId === 1 ? "Mainnet" : "—"}
+                    </span>
+                  </li>
+                  <li className="flex justify-between">
+                    <span>Intent sig</span>
+                    <span className="font-mono text-white">CIP-30 signData</span>
+                  </li>
+                </ul>
+
+                {!walletReady && (
+                  <p className="mt-4 rounded-md border border-yellow-500/20 bg-yellow-500/5 px-3 py-2 text-[11px] text-yellow-200/80">
+                    Connect a Cardano wallet in the top-right to sign the mission
+                    intent. You can run without a wallet, but the receipt won&rsquo;t be
+                    tied to your address.
+                  </p>
+                )}
+                {walletReady && !hasFunds && (
+                  <p className="mt-4 rounded-md border border-red-500/20 bg-red-500/5 px-3 py-2 text-[11px] text-red-300">
+                    Wallet balance is below the quoted price. Top up on Preprod faucet
+                    to run a paid mission end-to-end.
+                  </p>
+                )}
+                {signError && (
+                  <p className="mt-4 rounded-md border border-red-500/20 bg-red-500/10 px-3 py-2 text-[11px] text-red-300">
+                    {signError}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <button
+                  onClick={submit}
+                  disabled={submitting || !agent || prompt.trim().length < 4}
+                  className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-md bg-[color:var(--accent)] px-4 py-3 text-sm font-medium text-black transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  {walletReady ? <ShieldCheck className="h-4 w-4" /> : <Wallet className="h-4 w-4" />}
+                  {submitting
+                    ? stage === "sign"
+                      ? "Signing intent…"
+                      : stage === "pay"
+                        ? "Submitting Preprod tx…"
+                        : "Launching…"
+                    : walletReady
+                      ? "Sign, pay & launch"
+                      : "Launch without wallet"}
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </button>
+                <p className="mt-3 text-[10px] leading-normal text-white/55">
+                  {walletReady
+                    ? "Wallet will request: (1) sign intent, (2) sign Preprod tx (~1.5 ADA with mission metadata). Runner executes once confirmed."
+                    : "Skip wallet signing for a quick demo run. Receipt still applies, but nothing goes on-chain."}
+                </p>
+              </div>
+            </aside>
+          </TiltedCard>
+        </div>
       </div>
     </AppShell>
   );

@@ -2,6 +2,10 @@ import { createFileRoute, Link, notFound, useRouter } from "@tanstack/react-rout
 import { ArrowRight, CheckCircle2, Clock, Fingerprint, Wallet } from "lucide-react";
 import { AppShell } from "../components/app-shell";
 import { getAgent } from "../lib/agents-data";
+import BlurText from "../components/react-bits/BlurText.jsx";
+import ShinyText from "../components/react-bits/ShinyText.jsx";
+import DecryptedText from "../components/react-bits/DecryptedText.jsx";
+import TiltedCard from "../components/react-bits/TiltedCard.jsx";
 
 export const Route = createFileRoute("/agents/$agentId")({
   loader: ({ params }) => {
@@ -109,7 +113,7 @@ function AgentProfile() {
             </div>
             <div>
               <h1 className="text-[36px] font-semibold leading-[1.05] tracking-[-0.02em] text-white md:text-[44px]">
-                {agent.name}
+                <ShinyText text={agent.name} speed={3} color="#ffffff" shineColor="#ffea79" />
               </h1>
               <p className="mt-1 text-white/60">{agent.tagline}</p>
             </div>
@@ -136,7 +140,7 @@ function AgentProfile() {
             </div>
           </div>
 
-          <div className="mt-8 grid gap-px overflow-hidden rounded-xl bg-white/10 sm:grid-cols-3">
+          <div className="mt-8 grid gap-4 overflow-hidden sm:grid-cols-3">
             <Stat
               icon={<Fingerprint className="h-4 w-4" />}
               label="Masumi DID"
@@ -156,54 +160,69 @@ function AgentProfile() {
           </div>
         </div>
 
-        <aside className="sticky top-24 h-fit rounded-xl border border-white/10 bg-[#111] p-6">
-          <div className="flex items-baseline justify-between">
-            <span className="font-mono text-[10px] uppercase tracking-widest text-white/40">
-              Price
-            </span>
-            <span
-              className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider ${
-                isLive
-                  ? "bg-[color:var(--accent)]/15 text-[color:var(--accent)]"
-                  : "bg-white/5 text-white/40"
-              }`}
-            >
-              {isLive ? "live" : agent.status}
-            </span>
-          </div>
-          <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-[40px] font-semibold tracking-tight text-white">
-              {agent.priceAda === 0 ? "—" : agent.priceAda}
-            </span>
-            <span className="text-[color:var(--accent)]">
-              {agent.priceAda === 0 ? "" : "₳"}
-            </span>
-            <span className="text-xs text-white/50">{agent.priceUnit}</span>
-          </div>
-          <p className="mt-3 text-xs text-white/50">
-            Escrowed in a Masumi payment channel on Cardano Preprod. Released
-            automatically when the agent posts a valid Proof-of-Execution.
-          </p>
+        <div className="sticky top-24 h-fit">
+          <TiltedCard
+            containerHeight="285px"
+            containerWidth="100%"
+            imageHeight="285px"
+            imageWidth="100%"
+            scaleOnHover={1.03}
+            rotateAmplitude={5}
+            showMobileWarning={false}
+            showTooltip={false}
+          >
+            <aside className="flex h-full flex-col justify-between rounded-xl border border-white/10 bg-[#111] p-6 text-left">
+              <div>
+                <div className="flex items-baseline justify-between">
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-white/40">
+                    Price
+                  </span>
+                  <span
+                    className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider ${
+                      isLive
+                        ? "bg-[color:var(--accent)]/15 text-[color:var(--accent)]"
+                        : "bg-white/5 text-white/40"
+                    }`}
+                  >
+                    {isLive ? "live" : agent.status}
+                  </span>
+                </div>
+                <div className="mt-2 flex items-baseline gap-2">
+                  <span className="text-[40px] font-semibold tracking-tight text-white">
+                    {agent.priceAda === 0 ? "—" : agent.priceAda}
+                  </span>
+                  <span className="text-[color:var(--accent)]">
+                    {agent.priceAda === 0 ? "" : "₳"}
+                  </span>
+                  <span className="text-xs text-white/50">{agent.priceUnit}</span>
+                </div>
+                <p className="mt-3 text-xs leading-normal text-white/50">
+                  Escrowed in a Masumi payment channel on Cardano Preprod. Released
+                  automatically when the agent posts a valid Proof-of-Execution.
+                </p>
+              </div>
 
-          {isLive ? (
-            <Link
-              to="/mission/new"
-              search={{ agent: agent.id }}
-              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-md bg-[color:var(--accent)] px-4 py-3 text-sm font-medium text-black transition hover:brightness-110"
-            >
-              <Wallet className="h-4 w-4" />
-              Hire this agent
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          ) : (
-            <button
-              disabled
-              className="mt-5 inline-flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-md border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-white/40"
-            >
-              Coming soon
-            </button>
-          )}
-        </aside>
+              {isLive ? (
+                <Link
+                  to="/mission/new"
+                  search={{ agent: agent.id }}
+                  className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-md bg-[color:var(--accent)] px-4 py-3 text-sm font-medium text-black transition hover:brightness-110"
+                >
+                  <Wallet className="h-4 w-4" />
+                  Hire this agent
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              ) : (
+                <button
+                  disabled
+                  className="mt-5 inline-flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-md border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-white/40"
+                >
+                  Coming soon
+                </button>
+              )}
+            </aside>
+          </TiltedCard>
+        </div>
       </div>
     </AppShell>
   );
@@ -221,7 +240,7 @@ function Stat({
   mono?: boolean;
 }) {
   return (
-    <div className="bg-[#0a0a0a] p-4">
+    <div className="bg-[#0d0d0d] border border-white/5 rounded-xl p-4 text-left">
       <div className="flex items-center gap-1.5 text-[color:var(--accent)]">
         {icon}
         <span className="font-mono text-[10px] uppercase tracking-widest text-white/40">
@@ -232,7 +251,7 @@ function Stat({
         className={`mt-2 text-sm text-white ${mono ? "font-mono truncate" : "font-medium"}`}
         title={value}
       >
-        {value}
+        <DecryptedText text={value} animateOn="view" revealDirection="center" sequential />
       </div>
     </div>
   );

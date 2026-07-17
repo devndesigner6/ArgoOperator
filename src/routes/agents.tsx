@@ -5,6 +5,10 @@ import { ArrowRight, ShieldCheck, Radio, ExternalLink } from "lucide-react";
 import { AppShell } from "../components/app-shell";
 import { AGENTS } from "../lib/agents-data";
 import { getMasumiRegistry, type MasumiRegistryEntry } from "../lib/masumi-registry.functions";
+import BlurText from "../components/react-bits/BlurText.jsx";
+import ShinyText from "../components/react-bits/ShinyText.jsx";
+import DecryptedText from "../components/react-bits/DecryptedText.jsx";
+import TiltedCard from "../components/react-bits/TiltedCard.jsx";
 
 export const Route = createFileRoute("/agents")({
   head: () => ({
@@ -50,12 +54,12 @@ function AgentsPage() {
         <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">
           Registry · Cardano Preprod
         </span>
-        <h1 className="mt-3 text-[44px] font-semibold leading-[1.02] tracking-[-0.02em] md:text-[64px]">
-          Hireable{" "}
+        <h1 className="mt-3 text-[44px] font-semibold leading-[1.02] tracking-[-0.02em] md:text-[64px] flex flex-wrap items-center gap-x-3">
+          <BlurText text="Hireable" delay={100} animateBy="words" />
           <span className="[font-family:var(--font-serif)] italic font-normal">
-            agents
+            <DecryptedText text="agents" animateOn="view" revealDirection="center" sequential />
           </span>
-          .
+          <BlurText text="." delay={200} animateBy="words" />
         </h1>
         <p className="mt-4 text-[15px] leading-relaxed text-white/60">
           Every agent below is registered on Masumi. Prices settle in ADA the moment
@@ -69,74 +73,102 @@ function AgentsPage() {
         )}
       </div>
 
-      <div className="grid gap-px overflow-hidden rounded-xl bg-white/10 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {AGENTS.map((a) => {
           const Icon = a.icon;
           return (
-            <Link
+            <TiltedCard
               key={a.id}
-              to="/agents/$agentId"
-              params={{ agentId: a.id }}
-              className="group flex flex-col bg-[#0a0a0a] p-6 transition hover:bg-[#111]"
+              containerHeight="220px"
+              containerWidth="100%"
+              imageHeight="220px"
+              imageWidth="100%"
+              scaleOnHover={1.04}
+              rotateAmplitude={6}
+              showMobileWarning={false}
+              showTooltip={false}
             >
-              <div className="mb-5 flex items-center justify-between">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-white/5 text-white/80 ring-1 ring-white/10">
-                  <Icon className="h-4 w-4" />
-                </span>
-                <span
-                  className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider ${
-                    a.status === "live"
-                      ? "bg-[color:var(--accent)]/15 text-[color:var(--accent)]"
-                      : a.status === "beta"
-                        ? "bg-yellow-400/10 text-yellow-300"
-                        : "bg-white/5 text-white/40"
-                  }`}
-                >
-                  {a.status === "live" && <span className="h-1 w-1 rounded-full bg-[color:var(--accent)]" />}
-                  {a.status === "beta" && <span className="h-1 w-1 rounded-full bg-yellow-300" />}
-                  {a.status}
-                </span>
-              </div>
+              <Link
+                to="/agents/$agentId"
+                params={{ agentId: a.id }}
+                className="group flex h-full flex-col justify-between rounded-xl border border-white/5 bg-[#0d0d0d] p-6 transition hover:border-white/20"
+              >
+                <div>
+                  <div className="mb-4 flex items-center justify-between">
+                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-white/5 text-white/80 ring-1 ring-white/10">
+                      <Icon className="h-4 w-4" />
+                    </span>
+                    <span
+                      className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider ${
+                        a.status === "live"
+                          ? "bg-[color:var(--accent)]/15 text-[color:var(--accent)]"
+                          : a.status === "beta"
+                            ? "bg-yellow-400/10 text-yellow-300"
+                            : "bg-white/5 text-white/40"
+                      }`}
+                    >
+                      {a.status === "live" && <span className="h-1 w-1 rounded-full bg-[color:var(--accent)]" />}
+                      {a.status === "beta" && <span className="h-1 w-1 rounded-full bg-yellow-300" />}
+                      {a.status}
+                    </span>
+                  </div>
 
-              <h3 className="text-[16px] font-semibold text-white">{a.name}</h3>
-              <p className="mt-1 text-[13px] leading-relaxed text-white/55">{a.tagline}</p>
-              <div className="mt-6 flex items-center justify-between border-t border-white/5 pt-4">
-                <div className="font-mono text-[11px]">
-                  <span className="text-[color:var(--accent)]">
-                    {a.priceAda === 0 ? "—" : `${a.priceAda} ₳`}
-                  </span>
-                  <span className="ml-1 text-white/40">{a.priceUnit}</span>
+                  <h3 className="text-[16px] font-semibold text-white">
+                    <ShinyText text={a.name} speed={3.5} color="#ffffff" shineColor="#ffea79" />
+                  </h3>
+                  <p className="mt-1 text-[13px] leading-relaxed text-white/55 line-clamp-2">{a.tagline}</p>
                 </div>
-                <ArrowRight className="h-3.5 w-3.5 text-white/40 transition group-hover:translate-x-0.5 group-hover:text-white" />
-              </div>
-            </Link>
+                <div className="mt-4 flex items-center justify-between border-t border-white/5 pt-3">
+                  <div className="font-mono text-[11px]">
+                    <span className="text-[color:var(--accent)]">
+                      {a.priceAda === 0 ? "—" : `${a.priceAda} ₳`}
+                    </span>
+                    <span className="ml-1 text-white/40">{a.priceUnit}</span>
+                  </div>
+                  <ArrowRight className="h-3.5 w-3.5 text-white/40 transition group-hover:translate-x-0.5 group-hover:text-white" />
+                </div>
+              </Link>
+            </TiltedCard>
           );
         })}
 
         {liveExternal.map((e) => (
-          <div
+          <TiltedCard
             key={e.did!}
-            className="flex flex-col bg-[#0a0a0a] p-6 opacity-90"
-            title="Discovered on the live Masumi Registry. Argo doesn't have an execution adapter for this agent yet."
+            containerHeight="220px"
+            containerWidth="100%"
+            imageHeight="220px"
+            imageWidth="100%"
+            scaleOnHover={1.04}
+            rotateAmplitude={6}
+            showMobileWarning={false}
+            showTooltip={false}
           >
-            <div className="mb-5 flex items-center justify-between">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-white/5 text-white/60 ring-1 ring-white/10">
-                <ExternalLink className="h-4 w-4" />
-              </span>
-              <span className="inline-flex items-center gap-1 rounded-full bg-white/5 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-white/50 ring-1 ring-white/10">
-                <Radio className="h-2.5 w-2.5" />
-                masumi · external
-              </span>
+            <div
+              className="flex h-full flex-col justify-between rounded-xl border border-white/5 bg-[#0d0d0d] p-6 opacity-90 text-left"
+              title="Discovered on the live Masumi Registry. Argo doesn't have an execution adapter for this agent yet."
+            >
+              <div>
+                <div className="mb-4 flex items-center justify-between">
+                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-white/5 text-white/60 ring-1 ring-white/10">
+                    <ExternalLink className="h-4 w-4" />
+                  </span>
+                  <span className="inline-flex items-center gap-1 rounded-full bg-white/5 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-white/50 ring-1 ring-white/10">
+                    <Radio className="h-2.5 w-2.5" />
+                    masumi · external
+                  </span>
+                </div>
+                <h3 className="text-[16px] font-semibold text-white">{e.name ?? "Unnamed agent"}</h3>
+                <p className="mt-1 line-clamp-2 text-[13px] leading-relaxed text-white/55">
+                  {e.capability ?? "No capability metadata provided."}
+                </p>
+              </div>
+              <div className="mt-4 flex items-center justify-between border-t border-white/5 pt-3 font-mono text-[10px] text-white/40">
+                <span className="truncate">{e.did?.slice(0, 22)}…</span>
+                {e.completed != null && <span>{e.completed} runs</span>}
+              </div>
             </div>
-            <h3 className="text-[16px] font-semibold text-white">{e.name ?? "Unnamed agent"}</h3>
-            <p className="mt-1 line-clamp-2 text-[13px] leading-relaxed text-white/55">
-              {e.capability ?? "No capability metadata provided."}
-            </p>
-            <div className="mt-6 flex items-center justify-between border-t border-white/5 pt-4 font-mono text-[10px] text-white/40">
-              <span className="truncate">{e.did?.slice(0, 22)}…</span>
-              {e.completed != null && <span>{e.completed} runs</span>}
-            </div>
-          </div>
+          </TiltedCard>
         ))}
       </div>
 

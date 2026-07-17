@@ -15,6 +15,10 @@ import { lazy, Suspense, useState } from "react";
 import { ClientOnly } from "@tanstack/react-router";
 import { AppNav } from "../components/app-shell";
 import BorderGlow from "../components/react-bits/BorderGlow.jsx";
+import BlurText from "../components/react-bits/BlurText.jsx";
+import ShinyText from "../components/react-bits/ShinyText.jsx";
+import DecryptedText from "../components/react-bits/DecryptedText.jsx";
+import TiltedCard from "../components/react-bits/TiltedCard.jsx";
 
 const Strands = lazy(() => import("../components/Strands.jsx"));
 const DotField = lazy(() => import("../components/DotField.jsx"));
@@ -99,15 +103,18 @@ function Hero() {
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
       <div className="relative mx-auto flex max-w-7xl flex-col items-center px-6 pt-28 pb-24 text-center md:pt-40 md:pb-32">
         <span className="inline-flex items-center rounded-full border border-white/10 bg-black/60 px-3.5 py-1.5 text-[12px] text-white/80 backdrop-blur">
-          Agent infrastructure
+          <ShinyText text="Agent infrastructure" speed={3} color="#ffffff" shineColor="#ffea79" />
         </span>
 
-        <h1 className="mt-8 max-w-5xl text-[46px] font-normal leading-[1.05] tracking-[-0.02em] text-white [font-family:var(--font-serif)] [text-shadow:0_2px_24px_rgba(0,0,0,0.9)] md:text-[76px]">
-          Meet! Argo.
-          <br />
-          Built for a paid{" "}
-          <span className="italic text-[color:var(--accent)]">Cardano</span>{" "}
-          agent web.
+        <h1 className="mt-8 max-w-5xl text-[46px] font-normal leading-[1.05] tracking-[-0.02em] text-white [font-family:var(--font-serif)] [text-shadow:0_2px_24px_rgba(0,0,0,0.9)] md:text-[76px] flex flex-col items-center">
+          <BlurText text="Meet! Argo." delay={100} animateBy="words" />
+          <span className="mt-2 flex flex-wrap justify-center gap-x-3">
+            <BlurText text="Built for a paid" delay={250} animateBy="words" />
+            <span className="italic text-[color:var(--accent)] font-normal">
+              <DecryptedText text="Cardano" animateOn="view" revealDirection="center" sequential />
+            </span>
+            <BlurText text="agent web." delay={400} animateBy="words" />
+          </span>
         </h1>
 
         <p className="mt-6 max-w-xl text-[15px] leading-relaxed text-white/75 [text-shadow:0_1px_12px_rgba(0,0,0,0.9)]">
@@ -479,20 +486,34 @@ function HowItWorks() {
         settlement into one deterministic pipeline.
       </p>
 
-      <div className="mt-12 grid gap-px overflow-hidden rounded-2xl bg-white/10 md:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {STEPS.map((s) => (
-          <div key={s.n} className="flex flex-col bg-[#0a0a0a] p-6">
-            <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-white/40">
-              Step {s.n}
+          <TiltedCard
+            key={s.n}
+            containerHeight="260px"
+            containerWidth="100%"
+            imageHeight="260px"
+            imageWidth="100%"
+            scaleOnHover={1.03}
+            rotateAmplitude={6}
+            showMobileWarning={false}
+            showTooltip={false}
+          >
+            <div className="flex h-full flex-col justify-between rounded-2xl border border-white/5 bg-[#0d0d0d] p-6 text-left">
+              <div>
+                <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-white/40">
+                  Step {s.n}
+                </div>
+                <h3 className="mt-3 text-[17px] font-medium text-white">
+                  {s.title}
+                </h3>
+                <p className="mt-2 text-[13px] leading-relaxed text-white/55">
+                  {s.body}
+                </p>
+              </div>
+              <CodeChip>{s.chip}</CodeChip>
             </div>
-            <h3 className="mt-4 text-[17px] font-medium text-white">
-              {s.title}
-            </h3>
-            <p className="mt-2 text-[13px] leading-relaxed text-white/55">
-              {s.body}
-            </p>
-            <CodeChip>{s.chip}</CodeChip>
-          </div>
+          </TiltedCard>
         ))}
       </div>
     </section>
