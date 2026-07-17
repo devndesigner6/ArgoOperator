@@ -11,23 +11,23 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/your-org/argo">
-    <img src="public/favicon.png" alt="Argo Logo" width="120" height="120">
+  <a href="https://github.com/devndesigner6/ArgoOperator">
+    <img src="public/logo.png" alt="Argo Logo" width="120" height="120">
   </a>
 
-  <h3 align="center">Argo</h3>
+  <h3 align="center">ARGO</h3>
 
   <p align="center">
-    Web-to-Cardano agent gateway. Autonomous browser missions, paid in ADA via the Masumi Protocol.
+    Web-to-Cardano Agent Gateway. Autonomous browser missions, paid in ADA via the Masumi Protocol.
     <br />
     <a href="./DEPLOY_VERCEL.md"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="#usage">View Demo</a>
     ·
-    <a href="https://github.com/your-org/argo/issues/new?labels=bug">Report Bug</a>
+    <a href="https://github.com/devndesigner6/ArgoOperator/issues/new?labels=bug">Report Bug</a>
     ·
-    <a href="https://github.com/your-org/argo/issues/new?labels=enhancement">Request Feature</a>
+    <a href="https://github.com/devndesigner6/ArgoOperator/issues/new?labels=enhancement">Request Feature</a>
   </p>
 </div>
 
@@ -83,7 +83,7 @@ Key ideas:
 
 ### Prerequisites
 
-* [Bun][bun-url] ≥ 1.1
+* [Node.js](https://nodejs.org) (v20+) or [Bun][bun-url] (v1.1+)
 * A Cardano wallet with the CIP-30 extension (Eternl, Lace, or Nami) on **Preprod**
 * Accounts / API keys for: Blockfrost, Cerebras, Steel, Neon, and a Masumi Registry Service instance
 
@@ -91,12 +91,12 @@ Key ideas:
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/your-org/argo.git
-   cd argo
+   git clone https://github.com/devndesigner6/ArgoOperator.git
+   cd ArgoOperator
    ```
 2. Install dependencies
    ```sh
-   bun install
+   npm install   # or bun install
    ```
 3. Create a Neon project and run the schema
    ```sh
@@ -114,7 +114,7 @@ Key ideas:
    ```
 5. Run the dev server
    ```sh
-   bun dev
+   npm run dev   # or bun dev
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -141,7 +141,7 @@ For production deployment on Vercel, see [DEPLOY_VERCEL.md](./DEPLOY_VERCEL.md).
 - [ ] Mainnet support
 - [ ] Agent SDK for third-party contributions
 
-See [open issues](https://github.com/your-org/argo/issues) for a full list.
+See [open issues](https://github.com/devndesigner6/ArgoOperator/issues) for a full list.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -165,7 +165,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-Project Link: [https://github.com/your-org/argo](https://github.com/your-org/argo)
+Project Link: [https://github.com/devndesigner6/ArgoOperator](https://github.com/devndesigner6/ArgoOperator)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -178,16 +178,16 @@ Project Link: [https://github.com/your-org/argo](https://github.com/your-org/arg
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS -->
-[contributors-shield]: https://img.shields.io/github/contributors/your-org/argo.svg?style=for-the-badge
-[contributors-url]: https://github.com/your-org/argo/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/your-org/argo.svg?style=for-the-badge
-[forks-url]: https://github.com/your-org/argo/network/members
-[stars-shield]: https://img.shields.io/github/stars/your-org/argo.svg?style=for-the-badge
-[stars-url]: https://github.com/your-org/argo/stargazers
-[issues-shield]: https://img.shields.io/github/issues/your-org/argo.svg?style=for-the-badge
-[issues-url]: https://github.com/your-org/argo/issues
-[license-shield]: https://img.shields.io/github/license/your-org/argo.svg?style=for-the-badge
-[license-url]: https://github.com/your-org/argo/blob/main/LICENSE
+[contributors-shield]: https://img.shields.io/github/contributors/devndesigner6/ArgoOperator.svg?style=for-the-badge
+[contributors-url]: https://github.com/devndesigner6/ArgoOperator/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/devndesigner6/ArgoOperator.svg?style=for-the-badge
+[forks-url]: https://github.com/devndesigner6/ArgoOperator/network/members
+[stars-shield]: https://img.shields.io/github/stars/devndesigner6/ArgoOperator.svg?style=for-the-badge
+[stars-url]: https://github.com/devndesigner6/ArgoOperator/stargazers
+[issues-shield]: https://img.shields.io/github/issues/devndesigner6/ArgoOperator.svg?style=for-the-badge
+[issues-url]: https://github.com/devndesigner6/ArgoOperator/issues
+[license-shield]: https://img.shields.io/github/license/devndesigner6/ArgoOperator.svg?style=for-the-badge
+[license-url]: https://github.com/devndesigner6/ArgoOperator/blob/main/LICENSE
 [tanstack-url]: https://tanstack.com/start
 [tailwind-url]: https://tailwindcss.com
 [cardano-url]: https://cips.cardano.org/cips/cip30/
