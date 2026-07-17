@@ -1,0 +1,128 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ada: var(--ada);
+  --color-ink: var(--ink);
+  --font-display: "Public Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+:root {
+  --radius: 0.625rem;
+  /* Dark canvas, steel-inspired */
+  --background: #0a0a0a;
+  --foreground: oklch(0.98 0 0);
+  --ink: oklch(0.98 0 0);
+  --card: oklch(0.17 0.005 260);
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.17 0.005 260);
+  --popover-foreground: oklch(0.98 0 0);
+  --primary: oklch(0.9 0.19 100); /* yellow */
+  --primary-foreground: oklch(0.14 0 0);
+  --secondary: oklch(0.22 0.005 260);
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted: oklch(0.22 0.005 260);
+  --muted-foreground: oklch(0.65 0.01 260);
+  --accent: oklch(0.9 0.19 100); /* ARGO yellow */
+  --accent-foreground: oklch(0.14 0 0);
+  --destructive: oklch(0.65 0.22 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(1 0 0 / 0.08);
+  --input: oklch(1 0 0 / 0.12);
+  --ring: oklch(0.9 0.19 100);
+  --ada: oklch(0.9 0.19 100); /* alias to yellow so legacy refs also glow */
+}
+
+.dark { color-scheme: light; }
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html { background-color: var(--color-background); }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-display);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Ambient gradient wash inspired by lunel — soft blue → lilac → peach */
+@utility aurora {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 45% at 12% 20%, oklch(0.65 0.2 255 / 0.55), transparent 65%),
+    radial-gradient(55% 45% at 85% 25%, oklch(0.78 0.15 320 / 0.45), transparent 65%),
+    radial-gradient(45% 40% at 70% 80%, oklch(0.85 0.12 40 / 0.5), transparent 65%),
+    radial-gradient(50% 40% at 20% 90%, oklch(0.78 0.14 195 / 0.4), transparent 65%);
+  filter: blur(20px);
+}
+
+@utility text-gradient {
+  background: linear-gradient(120deg, var(--ada) 0%, oklch(0.55 0.22 285) 50%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+@utility grid-faint {
+  background-image:
+    linear-gradient(oklch(0.14 0.02 250 / 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.14 0.02 250 / 0.06) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(2deg); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
