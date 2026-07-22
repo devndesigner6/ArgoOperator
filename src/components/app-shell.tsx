@@ -14,7 +14,8 @@ import { useWallet, formatAda } from "../lib/wallet-context";
 import SpecularButton from "./react-bits/SpecularButton.jsx";
 
 function WalletButton() {
-  const { address, available, connect, disconnect, connecting, error, lovelace, networkId, name } = useWallet();
+  const { address, available, connect, disconnect, connecting, error, lovelace, networkId, name } =
+    useWallet();
   const [open, setOpen] = useState(false);
 
   const short = address ? `${address.slice(0, 6)}…${address.slice(-4)}` : "";
@@ -37,7 +38,11 @@ function WalletButton() {
           <div className="absolute right-0 top-full z-50 mt-2 w-72 overflow-hidden rounded-lg border border-white/10 bg-[#111] p-3 shadow-xl">
             <div className="mb-2 flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-white/40">
               <span>{name}</span>
-              <span className={netLabel === "preprod" ? "text-[color:var(--accent)]" : "text-orange-400"}>
+              <span
+                className={
+                  netLabel === "preprod" ? "text-[color:var(--accent)]" : "text-orange-400"
+                }
+              >
                 {netLabel || "unknown net"}
               </span>
             </div>
@@ -96,11 +101,21 @@ function WalletButton() {
           {available.length === 0 && (
             <div className="px-3 py-3 text-xs text-white/50">
               No CIP-30 wallet detected. Install{" "}
-              <a href="https://eternl.io" target="_blank" rel="noreferrer" className="text-[color:var(--accent)] hover:underline">
+              <a
+                href="https://eternl.io"
+                target="_blank"
+                rel="noreferrer"
+                className="text-[color:var(--accent)] hover:underline"
+              >
                 Eternl
               </a>
               ,{" "}
-              <a href="https://www.lace.io" target="_blank" rel="noreferrer" className="text-[color:var(--accent)] hover:underline">
+              <a
+                href="https://www.lace.io"
+                target="_blank"
+                rel="noreferrer"
+                className="text-[color:var(--accent)] hover:underline"
+              >
                 Lace
               </a>
               , or Nami.
@@ -134,7 +149,11 @@ export function AppNav() {
   return (
     <nav className="fixed top-6 left-1/2 z-50 -translate-x-1/2 flex items-center gap-1.5 rounded-full border border-white/10 bg-black/60 px-2 py-1.5 backdrop-blur-xl shadow-2xl">
       {/* logo */}
-      <Link to="/" className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full hover:bg-white/5 transition pl-1" aria-label="Argo home">
+      <Link
+        to="/"
+        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full hover:bg-white/5 transition pl-1"
+        aria-label="Argo home"
+      >
         <img src="/logo.png" alt="Argo" className="h-5 w-5" />
       </Link>
 

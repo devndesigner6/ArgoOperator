@@ -1,4 +1,15 @@
-import { Plane, LineChart, Scale, Search, Wind, Bot, Newspaper, Globe, Brain, type LucideIcon } from "lucide-react";
+import {
+  Plane,
+  LineChart,
+  Scale,
+  Search,
+  Wind,
+  Bot,
+  Newspaper,
+  Globe,
+  Brain,
+  type LucideIcon,
+} from "lucide-react";
 
 export type Agent = {
   id: string;

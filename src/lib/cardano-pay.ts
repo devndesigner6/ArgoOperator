@@ -29,15 +29,15 @@ const LUCID_CDNS = [
 ];
 
 type LucidModule = {
-  Lucid: (provider: unknown, network: "Preprod" | "Mainnet") => Promise<{
+  Lucid: (
+    provider: unknown,
+    network: "Preprod" | "Mainnet",
+  ) => Promise<{
     selectWallet: { fromAPI: (api: unknown) => void };
     wallet: () => { address: () => Promise<string> };
     newTx: () => {
       pay: {
-        ToAddress: (
-          addr: string,
-          assets: { lovelace: bigint },
-        ) => LucidTxBuilder;
+        ToAddress: (addr: string, assets: { lovelace: bigint }) => LucidTxBuilder;
       };
     };
   }>;
@@ -133,10 +133,7 @@ export async function payAndCommitMission(p: PayParams): Promise<PayResult> {
   }
 
   const { Lucid, Blockfrost } = await loadLucid();
-  const lucid = await Lucid(
-    new Blockfrost(BLOCKFROST_PREPROD, p.projectId),
-    "Preprod",
-  );
+  const lucid = await Lucid(new Blockfrost(BLOCKFROST_PREPROD, p.projectId), "Preprod");
   lucid.selectWallet.fromAPI(p.api as unknown);
 
   const bech32 = await lucid.wallet().address();
@@ -179,8 +176,8 @@ export type PoeAnchorMetadata = {
     v: 1;
     kind: "poe";
     missionId: string;
-    poe: string;   // 32-byte sha256 digest, hex
-    pk: string;    // 32-byte Ed25519 public key, hex
+    poe: string; // 32-byte sha256 digest, hex
+    pk: string; // 32-byte Ed25519 public key, hex
     sig: [string, string]; // 64-byte signature, hex, split in two
     ts: number;
   };
@@ -217,10 +214,7 @@ export async function anchorProofOfExecution(p: PoeAnchorParams): Promise<PoeAnc
   }
 
   const { Lucid, Blockfrost } = await loadLucid();
-  const lucid = await Lucid(
-    new Blockfrost(BLOCKFROST_PREPROD, p.projectId),
-    "Preprod",
-  );
+  const lucid = await Lucid(new Blockfrost(BLOCKFROST_PREPROD, p.projectId), "Preprod");
   lucid.selectWallet.fromAPI(p.api as unknown);
 
   const bech32 = await lucid.wallet().address();

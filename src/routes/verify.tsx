@@ -24,8 +24,7 @@ export const Route = createFileRoute("/verify")({
       { property: "og:title", content: "Verify Proof-of-Execution — Argo" },
       {
         property: "og:description",
-        content:
-          "Verify Argo mission receipts in your browser — Ed25519, no server round-trip.",
+        content: "Verify Argo mission receipts in your browser — Ed25519, no server round-trip.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/verify" },
@@ -79,14 +78,20 @@ function verify(json: string): Result {
     .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
   if (recomputedHex !== digest) {
-    return { kind: "bad", reason: "Digest does not match canonical payload — payload was tampered with." };
+    return {
+      kind: "bad",
+      reason: "Digest does not match canonical payload — payload was tampered with.",
+    };
   }
 
   try {
     const ok = ed.verify(hexToBytes(signature), recomputed, hexToBytes(publicKey));
     if (!ok) return { kind: "bad", reason: "Signature invalid for this public key." };
   } catch (e) {
-    return { kind: "bad", reason: e instanceof Error ? e.message : "Signature verification threw." };
+    return {
+      kind: "bad",
+      reason: e instanceof Error ? e.message : "Signature verification threw.",
+    };
   }
 
   const body = JSON.parse(canonical) as { agentId?: string };
@@ -123,8 +128,8 @@ function VerifyPage() {
           <BlurText text="." delay={200} animateBy="words" />
         </h1>
         <p className="mt-4 text-[15px] leading-relaxed text-white/60">
-          Paste a Argo PoE artifact below (or upload the JSON). Verification runs
-          entirely in your browser — no data leaves this page.
+          Paste a Argo PoE artifact below (or upload the JSON). Verification runs entirely in your
+          browser — no data leaves this page.
         </p>
       </div>
 
@@ -137,7 +142,12 @@ function VerifyPage() {
             <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-[12px] text-white/80 transition hover:bg-white/10">
               <Upload className="h-3.5 w-3.5" />
               Upload
-              <input type="file" accept="application/json,.json" className="hidden" onChange={onFile} />
+              <input
+                type="file"
+                accept="application/json,.json"
+                className="hidden"
+                onChange={onFile}
+              />
             </label>
           </div>
           <textarea
@@ -182,7 +192,8 @@ function VerifyPage() {
                       <Row k="digest" v={result.digest} truncate />
                     </dl>
                     <p className="mt-4 text-[11px] text-white/55 leading-normal">
-                      Canonical payload matches digest, and signature checks out against the agent DID.
+                      Canonical payload matches digest, and signature checks out against the agent
+                      DID.
                     </p>
                   </div>
                 )}
@@ -216,7 +227,13 @@ function Row({ k, v, truncate }: { k: string; v: string; truncate?: boolean }) {
     <div className="flex justify-between gap-3 text-left">
       <dt className="font-mono text-white/40">{k}</dt>
       <dd className={`font-mono text-white/80 ${truncate ? "truncate" : ""}`} title={v}>
-        <DecryptedText key={v} text={displayVal} animateOn="view" revealDirection="center" sequential />
+        <DecryptedText
+          key={v}
+          text={displayVal}
+          animateOn="view"
+          revealDirection="center"
+          sequential
+        />
       </dd>
     </div>
   );

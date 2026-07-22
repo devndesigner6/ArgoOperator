@@ -30,7 +30,7 @@ environments — Production, Preview, Development):
 | Variable                        | Purpose                                                                 |
 | ------------------------------- | ----------------------------------------------------------------------- |
 | `DATABASE_URL`                  | Neon pooled connection string                                           |
-| `BLOCKFROST_PROJECT_ID_PREPROD` | Blockfrost Preprod project id (<https://blockfrost.io>)                 |
+| `BLOCKFROST_PROJECT_ID`         | Blockfrost Preprod project id (<https://blockfrost.io>)                 |
 | `CEREBRAS_API_KEY`              | Cerebras inference key for the AI Analyst agent                         |
 | `STEEL_API_KEY`                 | Steel browser automation key (<https://steel.dev>)                      |
 | `ARGO_POE_SEED`                 | Any 32+ char random string. Argo derives its Ed25519 PoE key from this. |

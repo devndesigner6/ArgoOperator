@@ -8,6 +8,38 @@ import DecryptedText from "../components/react-bits/DecryptedText.jsx";
 import BorderGlow from "../components/react-bits/BorderGlow.jsx";
 import SpecularButton from "../components/react-bits/SpecularButton.jsx";
 
+function AgentErrorComponent({ error, reset }: { error: unknown; reset: () => void }) {
+  const router = useRouter();
+  const msg = error instanceof Error ? error.message : String(error);
+  return (
+    <AppShell>
+      <div className="mx-auto max-w-lg rounded-xl border border-white/10 bg-[#111] p-6 text-center">
+        <h1 className="text-lg font-semibold text-white">Couldn&rsquo;t load this agent</h1>
+        <p className="mt-2 text-sm text-white/60">
+          {msg.length > 240 ? msg.slice(0, 237) + "…" : msg || "Unexpected error."}
+        </p>
+        <div className="mt-5 flex flex-wrap justify-center gap-2">
+          <button
+            onClick={() => {
+              router.invalidate();
+              reset();
+            }}
+            className="inline-flex items-center gap-1.5 rounded-md bg-[color:var(--accent)] px-4 py-2 text-sm font-medium text-black"
+          >
+            Try again
+          </button>
+          <Link
+            to="/agents"
+            className="inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white"
+          >
+            Back to registry
+          </Link>
+        </div>
+      </div>
+    </AppShell>
+  );
+}
+
 export const Route = createFileRoute("/agents/$agentId")({
   loader: ({ params }) => {
     const agent = getAgent(params.agentId);
@@ -28,45 +60,12 @@ export const Route = createFileRoute("/agents/$agentId")({
             { property: "og:type", content: "profile" },
             { property: "og:url", content: `/agents/${params.agentId}` },
           ]
-        : [
-            { title: "Agent — Argo" },
-            { name: "robots", content: "noindex" },
-          ],
+        : [{ title: "Agent — Argo" }, { name: "robots", content: "noindex" }],
       links: agent ? [{ rel: "canonical", href: `/agents/${params.agentId}` }] : [],
     };
   },
 
-  errorComponent: ({ error, reset }) => {
-    const router = useRouter();
-    const msg = error instanceof Error ? error.message : String(error);
-    return (
-      <AppShell>
-        <div className="mx-auto max-w-lg rounded-xl border border-white/10 bg-[#111] p-6 text-center">
-          <h1 className="text-lg font-semibold text-white">Couldn&rsquo;t load this agent</h1>
-          <p className="mt-2 text-sm text-white/60">
-            {msg.length > 240 ? msg.slice(0, 237) + "…" : msg || "Unexpected error."}
-          </p>
-          <div className="mt-5 flex flex-wrap justify-center gap-2">
-            <button
-              onClick={() => {
-                router.invalidate();
-                reset();
-              }}
-              className="inline-flex items-center gap-1.5 rounded-md bg-[color:var(--accent)] px-4 py-2 text-sm font-medium text-black"
-            >
-              Try again
-            </button>
-            <Link
-              to="/agents"
-              className="inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white"
-            >
-              Back to registry
-            </Link>
-          </div>
-        </div>
-      </AppShell>
-    );
-  },
+  errorComponent: AgentErrorComponent,
   notFoundComponent: () => (
     <AppShell>
       <div className="py-20 text-center">
@@ -86,7 +85,6 @@ export const Route = createFileRoute("/agents/$agentId")({
   component: AgentProfile,
 });
 
-
 function AgentProfile() {
   const router = useRouter();
   const { agentId } = Route.useLoaderData();
@@ -94,7 +92,6 @@ function AgentProfile() {
   if (!agent) throw notFound();
   const Icon = agent.icon;
   const isLive = agent.status === "live";
-
 
   return (
     <AppShell>
@@ -197,8 +194,8 @@ function AgentProfile() {
                   <span className="text-xs text-white/50">{agent.priceUnit}</span>
                 </div>
                 <p className="mt-3 text-xs leading-normal text-white/50">
-                  Escrowed in a Masumi payment channel on Cardano Preprod. Released
-                  automatically when the agent posts a valid Proof-of-Execution.
+                  Escrowed in a Masumi payment channel on Cardano Preprod. Released automatically
+                  when the agent posts a valid Proof-of-Execution.
                 </p>
               </div>
 
@@ -209,7 +206,9 @@ function AgentProfile() {
                   lineColor="#eac83c"
                   baseColor="#7C3AED"
                   intensity={1.0}
-                  onClick={() => router.navigate({ to: "/mission/new", search: { agent: agent.id } })}
+                  onClick={() =>
+                    router.navigate({ to: "/mission/new", search: { agent: agent.id } })
+                  }
                   className="mt-5 w-full font-medium"
                 >
                   <span className="flex items-center gap-2">

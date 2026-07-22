@@ -27,10 +27,15 @@ function getConfiguredModelIds() {
 }
 
 function isMissingModel(status: number, body: string) {
-  return status === 404 && /model(_| )?not(_| )?found|does not exist|do not have access/i.test(body);
+  return (
+    status === 404 && /model(_| )?not(_| )?found|does not exist|do not have access/i.test(body)
+  );
 }
 
-async function chat(messages: Msg[], opts?: { maxTokens?: number; temperature?: number }): Promise<ChatResult> {
+async function chat(
+  messages: Msg[],
+  opts?: { maxTokens?: number; temperature?: number },
+): Promise<ChatResult> {
   const key = process.env.CEREBRAS_API_KEY;
   if (!key) throw new Error("CEREBRAS_API_KEY missing on the server");
 
@@ -75,7 +80,6 @@ async function chat(messages: Msg[], opts?: { maxTokens?: number; temperature?: 
   throw new Error(lastError || "Cerebras has no accessible configured model");
 }
 
-
 // Ponytail persona (github.com/DietrichGebert/ponytail, MIT) — compressed for
 // token efficiency. Turns the analyst into a lazy senior dev: shortest useful
 // answer, no preamble, no filler, cite what you use, admit gaps plainly.
@@ -93,7 +97,6 @@ export type AnalystPlan = {
   focus: string;
   model: string;
 };
-
 
 function extractUrls(text: string): string[] {
   const matches = text.match(/https?:\/\/[^\s)"']+/g) ?? [];
@@ -139,10 +142,15 @@ export async function planMission(prompt: string): Promise<AnalystPlan> {
   );
 
   try {
-    const cleaned = raw.content.replace(/^```(?:json)?/i, "").replace(/```$/i, "").trim();
+    const cleaned = raw.content
+      .replace(/^```(?:json)?/i, "")
+      .replace(/```$/i, "")
+      .trim();
     const parsed = JSON.parse(cleaned) as { urls?: unknown; focus?: unknown };
     const urls = Array.isArray(parsed.urls)
-      ? parsed.urls.filter((u): u is string => typeof u === "string" && /^https?:\/\//.test(u)).slice(0, 3)
+      ? parsed.urls
+          .filter((u): u is string => typeof u === "string" && /^https?:\/\//.test(u))
+          .slice(0, 3)
       : [];
     const focus = typeof parsed.focus === "string" ? parsed.focus : "";
     if (urls.length === 0) throw new Error("no urls");

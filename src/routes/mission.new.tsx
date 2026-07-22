@@ -54,12 +54,10 @@ function NewMission() {
   // to `beta`, so the launcher listed only 4 agents instead of 5.
   const live = AGENTS.filter((a) => a.status === "live" || a.status === "beta");
 
-
   const walletReady = Boolean(wallet.address);
   const walletOnPreprod = wallet.networkId === 0;
-  const hasFunds = wallet.lovelace != null && agent
-    ? Number(wallet.lovelace) / 1_000_000 >= agent.priceAda
-    : true;
+  const hasFunds =
+    wallet.lovelace != null && agent ? Number(wallet.lovelace) / 1_000_000 >= agent.priceAda : true;
 
   async function submit() {
     if (!agent) return;
@@ -208,9 +206,7 @@ function NewMission() {
                   >
                     <div
                       className={`inline-flex h-9 w-9 items-center justify-center rounded-md ${
-                        active
-                          ? "bg-[color:var(--accent)] text-black"
-                          : "bg-white/10 text-white"
+                        active ? "bg-[color:var(--accent)] text-black" : "bg-white/10 text-white"
                       }`}
                     >
                       <Icon className="h-4 w-4" />
@@ -241,8 +237,8 @@ function NewMission() {
               }
             />
             <p className="mt-2 text-xs text-white/50">
-              Be specific. The agent will interpret this literally and return a
-              server-signed receipt (Ed25519).
+              Be specific. The agent will interpret this literally and return a server-signed
+              receipt (Ed25519).
             </p>
           </div>
         </BorderGlow>
@@ -289,7 +285,11 @@ function NewMission() {
                   <li className="flex justify-between">
                     <span>Network</span>
                     <span className="font-mono text-white">
-                      {wallet.networkId === 0 ? "Preprod" : wallet.networkId === 1 ? "Mainnet" : "—"}
+                      {wallet.networkId === 0
+                        ? "Preprod"
+                        : wallet.networkId === 1
+                          ? "Mainnet"
+                          : "—"}
                     </span>
                   </li>
                   <li className="flex justify-between">
@@ -300,15 +300,14 @@ function NewMission() {
 
                 {!walletReady && (
                   <p className="mt-4 rounded-md border border-yellow-500/20 bg-yellow-500/5 px-3 py-2 text-[11px] text-yellow-200/80">
-                    Connect a Cardano wallet in the top-right to sign the mission
-                    intent. You can run without a wallet, but the receipt won&rsquo;t be
-                    tied to your address.
+                    Connect a Cardano wallet in the top-right to sign the mission intent. You can
+                    run without a wallet, but the receipt won&rsquo;t be tied to your address.
                   </p>
                 )}
                 {walletReady && !hasFunds && (
                   <p className="mt-4 rounded-md border border-red-500/20 bg-red-500/5 px-3 py-2 text-[11px] text-red-300">
-                    Wallet balance is below the quoted price. Top up on Preprod faucet
-                    to run a paid mission end-to-end.
+                    Wallet balance is below the quoted price. Top up on Preprod faucet to run a paid
+                    mission end-to-end.
                   </p>
                 )}
                 {signError && (
@@ -330,7 +329,11 @@ function NewMission() {
                   className="mt-6 w-full font-medium disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   <span className="flex items-center gap-2 justify-center">
-                    {walletReady ? <ShieldCheck className="h-4 w-4" /> : <Wallet className="h-4 w-4" />}
+                    {walletReady ? (
+                      <ShieldCheck className="h-4 w-4" />
+                    ) : (
+                      <Wallet className="h-4 w-4" />
+                    )}
                     {submitting
                       ? stage === "sign"
                         ? "Signing intent…"

@@ -1,7 +1,9 @@
 <!-- Improved compatibility of back to top link -->
+
 <a id="readme-top"></a>
 
 <!-- PROJECT SHIELDS -->
+
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -59,23 +61,23 @@ Argo gives AI agents hands on the open web. Users describe a mission ("scan this
 
 Key ideas:
 
-* CIP-30 wallet-driven escrow — every mission is intent-signed and paid on Cardano Preprod.
-* Neon Postgres for mission history, scoped by wallet address.
-* Masumi Registry integration — Argo's static agent catalog is merged with any live registry entries.
-* Ed25519 Proof-of-Execution — each result is signed by Argo's server key and verifiable from the UI.
+- CIP-30 wallet-driven escrow — every mission is intent-signed and paid on Cardano Preprod.
+- Neon Postgres for mission history, scoped by wallet address.
+- Masumi Registry integration — Argo's static agent catalog is merged with any live registry entries.
+- Ed25519 Proof-of-Execution — each result is signed by Argo's server key and verifiable from the UI.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Built With
 
-* [TanStack Start][tanstack-url] (React 19 + Vite 7, SSR)
-* [Tailwind CSS v4][tailwind-url]
-* [Cardano CIP-30][cardano-url] + [Lucid Evolution][lucid-url]
-* [Blockfrost][blockfrost-url] (Preprod)
-* [Neon Postgres][neon-url]
-* [Steel][steel-url] browser automation
-* [Cerebras][cerebras-url] inference
-* [Masumi Protocol][masumi-url]
+- [TanStack Start][tanstack-url] (React 19 + Vite 7, SSR)
+- [Tailwind CSS v4][tailwind-url]
+- [Cardano CIP-30][cardano-url] + [Lucid Evolution][lucid-url]
+- [Blockfrost][blockfrost-url] (Preprod)
+- [Neon Postgres][neon-url]
+- [Steel][steel-url] browser automation
+- [Cerebras][cerebras-url] inference
+- [Masumi Protocol][masumi-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -83,9 +85,9 @@ Key ideas:
 
 ### Prerequisites
 
-* [Node.js](https://nodejs.org) (v20+) or [Bun][bun-url] (v1.1+)
-* A Cardano wallet with the CIP-30 extension (Eternl, Lace, or Nami) on **Preprod**
-* Accounts / API keys for: Blockfrost, Cerebras, Steel, Neon, and a Masumi Registry Service instance
+- [Node.js](https://nodejs.org) (v20+) or [Bun][bun-url] (v1.1+)
+- A Cardano wallet with the CIP-30 extension (Eternl, Lace, or Nami) on **Preprod**
+- Accounts / API keys for: Blockfrost, Cerebras, Steel, Neon, and a Masumi Registry Service instance
 
 ### Installation
 
@@ -105,7 +107,7 @@ Key ideas:
 4. Copy `.env.example` to `.env` (or export directly) and fill in:
    ```dotenv
    DATABASE_URL=postgres://...neon.tech/neondb?sslmode=require
-   BLOCKFROST_PROJECT_ID_PREPROD=preprod...
+   BLOCKFROST_PROJECT_ID=preprod...
    CEREBRAS_API_KEY=...
    STEEL_API_KEY=...
    ARGO_POE_SEED=<32+ char random string>
@@ -171,13 +173,14 @@ Project Link: [https://github.com/devndesigner6/ArgoOperator](https://github.com
 
 ## Acknowledgments
 
-* [Masumi Network](https://github.com/masumi-network)
-* [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
-* [Lucid Evolution](https://github.com/Anastasia-Labs/lucid-evolution)
+- [Masumi Network](https://github.com/masumi-network)
+- [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
+- [Lucid Evolution](https://github.com/Anastasia-Labs/lucid-evolution)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS -->
+
 [contributors-shield]: https://img.shields.io/github/contributors/devndesigner6/ArgoOperator.svg?style=for-the-badge
 [contributors-url]: https://github.com/devndesigner6/ArgoOperator/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/devndesigner6/ArgoOperator.svg?style=for-the-badge

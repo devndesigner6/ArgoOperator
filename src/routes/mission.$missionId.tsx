@@ -22,10 +22,7 @@ import { getBlockfrostProjectId } from "../lib/blockfrost-config.functions";
 
 export const Route = createFileRoute("/mission/$missionId")({
   head: ({ params }) => ({
-    meta: [
-      { title: `Mission ${params.missionId} — Argo` },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: `Mission ${params.missionId} — Argo` }, { name: "robots", content: "noindex" }],
   }),
   component: MissionRun,
 });
@@ -106,9 +103,7 @@ function MissionRun() {
         ...(mission.payment
           ? [`> verifying tx ${mission.payment.txHash.slice(0, 12)}… on Preprod`]
           : []),
-        ...(isAnalyst
-          ? ["> cerebras · planning target URLs…"]
-          : []),
+        ...(isAnalyst ? ["> cerebras · planning target URLs…"] : []),
         `> steel.scrape() · agent ${mission.agentId}`,
       ]);
       try {
@@ -215,12 +210,10 @@ function MissionRun() {
     return (
       <AppShell>
         <div className="rounded-xl border border-white/10 bg-[#111] p-8 text-center">
-          <h1 className="text-2xl font-semibold text-white">
-            Mission not found
-          </h1>
+          <h1 className="text-2xl font-semibold text-white">Mission not found</h1>
           <p className="mt-2 text-sm text-white/50">
-            This mission ID isn&rsquo;t in the ledger. It may have been deleted, or the
-            link is wrong.
+            This mission ID isn&rsquo;t in the ledger. It may have been deleted, or the link is
+            wrong.
           </p>
           <Link
             to="/mission/new"
@@ -275,8 +268,7 @@ function MissionRun() {
                 {result.analyst.answer}
               </p>
               <div className="border-t border-white/5 pt-2 text-[11px] text-white/50">
-                <span className="font-mono text-white/40">focus:</span>{" "}
-                {result.analyst.plan.focus}
+                <span className="font-mono text-white/40">focus:</span> {result.analyst.plan.focus}
               </div>
             </div>
           )}
@@ -318,7 +310,8 @@ function MissionRun() {
                 </span>
               </div>
               <p className="mb-2 text-xs text-white/60">
-                {(Number(mission.payment.amountLovelace) / 1_000_000).toFixed(2)} ₳ · metadata commits mission to chain.
+                {(Number(mission.payment.amountLovelace) / 1_000_000).toFixed(2)} ₳ · metadata
+                commits mission to chain.
               </p>
               <a
                 href={`https://preprod.cardanoscan.io/transaction/${mission.payment.txHash}`}
@@ -427,8 +420,8 @@ function MissionRun() {
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-xl font-semibold text-white">Mission result</h2>
             <span className="font-mono text-[11px] text-white/50">
-              {((result.finishedAt - result.startedAt) / 1000).toFixed(1)}s ·{" "}
-              {result.steps.length} step(s)
+              {((result.finishedAt - result.startedAt) / 1000).toFixed(1)}s · {result.steps.length}{" "}
+              step(s)
             </span>
           </div>
           <p className="mb-4 rounded-xl border border-white/10 bg-[#111] p-4 text-sm text-white/80">
@@ -560,16 +553,18 @@ function SignatureCard({ sig }: { sig: MissionResult["signature"] }) {
   }
   const Row = ({ label, value }: { label: string; value: string }) => (
     <div className="flex items-center justify-between gap-2 border-t border-white/5 py-1.5 first:border-t-0">
-      <span className="font-mono text-[10px] uppercase tracking-widest text-white/40">
-        {label}
-      </span>
+      <span className="font-mono text-[10px] uppercase tracking-widest text-white/40">{label}</span>
       <button
         onClick={() => copy(label, value)}
         className="inline-flex items-center gap-1 font-mono text-[10px] text-white/70 hover:text-white"
         title={value}
       >
         {value.slice(0, 10)}…{value.slice(-6)}
-        {copied === label ? <Check className="h-3 w-3 text-[color:var(--accent)]" /> : <Copy className="h-3 w-3" />}
+        {copied === label ? (
+          <Check className="h-3 w-3 text-[color:var(--accent)]" />
+        ) : (
+          <Copy className="h-3 w-3" />
+        )}
       </button>
     </div>
   );
@@ -635,9 +630,7 @@ function PhaseCard({
       <div className="flex items-center gap-2">
         <span
           className={`inline-flex h-7 w-7 items-center justify-center rounded-md ${
-            done || active
-              ? "bg-[color:var(--accent)] text-black"
-              : "bg-white/10 text-white/60"
+            done || active ? "bg-[color:var(--accent)] text-black" : "bg-white/10 text-white/60"
           }`}
         >
           {icon}

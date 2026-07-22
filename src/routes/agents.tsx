@@ -22,8 +22,7 @@ export const Route = createFileRoute("/agents")({
       { property: "og:title", content: "Agent Registry — Argo" },
       {
         property: "og:description",
-        content:
-          "Browse Argo's registry of web-acting AI agents, paid in ADA via Masumi.",
+        content: "Browse Argo's registry of web-acting AI agents, paid in ADA via Masumi.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/agents" },
@@ -62,13 +61,14 @@ function AgentsPage() {
           <BlurText text="." delay={200} animateBy="words" />
         </h1>
         <p className="mt-4 text-[15px] leading-relaxed text-white/60">
-          Every agent below is registered on Masumi. Prices settle in ADA the moment
-          a mission&rsquo;s Proof-of-Execution is verified on-chain.
+          Every agent below is registered on Masumi. Prices settle in ADA the moment a
+          mission&rsquo;s Proof-of-Execution is verified on-chain.
         </p>
         {registry?.source === "live" && (
           <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-[color:var(--accent)]/40 bg-[color:var(--accent)]/10 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-[color:var(--accent)]">
             <Radio className="h-3 w-3" />
-            masumi registry · live · {registry.entries.length} entr{registry.entries.length === 1 ? "y" : "ies"}
+            masumi registry · live · {registry.entries.length} entr
+            {registry.entries.length === 1 ? "y" : "ies"}
           </div>
         )}
       </div>
@@ -99,14 +99,18 @@ function AgentsPage() {
                     <span
                       className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider ${
                         a.status === "live"
-                           ? "bg-[color:var(--accent)]/15 text-[color:var(--accent)]"
+                          ? "bg-[color:var(--accent)]/15 text-[color:var(--accent)]"
                           : a.status === "beta"
                             ? "bg-yellow-400/10 text-yellow-300"
                             : "bg-white/5 text-white/40"
                       }`}
                     >
-                      {a.status === "live" && <span className="h-1 w-1 rounded-full bg-[color:var(--accent)]" />}
-                      {a.status === "beta" && <span className="h-1 w-1 rounded-full bg-yellow-300" />}
+                      {a.status === "live" && (
+                        <span className="h-1 w-1 rounded-full bg-[color:var(--accent)]" />
+                      )}
+                      {a.status === "beta" && (
+                        <span className="h-1 w-1 rounded-full bg-yellow-300" />
+                      )}
                       {a.status}
                     </span>
                   </div>
@@ -114,7 +118,9 @@ function AgentsPage() {
                   <h3 className="text-[16px] font-semibold text-white">
                     <ShinyText text={a.name} speed={3.5} color="#ffffff" shineColor="#ffea79" />
                   </h3>
-                  <p className="mt-1 text-[13px] leading-relaxed text-white/55 line-clamp-2">{a.tagline}</p>
+                  <p className="mt-1 text-[13px] leading-relaxed text-white/55 line-clamp-2">
+                    {a.tagline}
+                  </p>
                 </div>
                 <div className="mt-4 flex items-center justify-between border-t border-white/5 pt-3">
                   <div className="font-mono text-[11px]">
@@ -154,7 +160,9 @@ function AgentsPage() {
                     masumi · external
                   </span>
                 </div>
-                <h3 className="text-[16px] font-semibold text-white">{e.name ?? "Unnamed agent"}</h3>
+                <h3 className="text-[16px] font-semibold text-white">
+                  {e.name ?? "Unnamed agent"}
+                </h3>
                 <p className="mt-1 line-clamp-2 text-[13px] leading-relaxed text-white/55">
                   {e.capability ?? "No capability metadata provided."}
                 </p>
@@ -171,10 +179,9 @@ function AgentsPage() {
       <div className="mt-10 flex items-start gap-3 rounded-xl border border-white/10 bg-white/5 p-5 text-[13px] text-white/60">
         <ShieldCheck className="mt-0.5 h-4 w-4 text-[color:var(--accent)]" />
         <p>
-          Reputation and completed-mission counters populate the first time an
-          agent is registered on Masumi and completes a paid mission. External
-          entries from the live registry are shown as reference — Argo can only
-          execute agents it has an adapter for.
+          Reputation and completed-mission counters populate the first time an agent is registered
+          on Masumi and completes a paid mission. External entries from the live registry are shown
+          as reference — Argo can only execute agents it has an adapter for.
         </p>
       </div>
     </AppShell>

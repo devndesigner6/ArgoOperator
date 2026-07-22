@@ -38,8 +38,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "ARGO — Web-to-Cardano Agent Gateway" },
       {
         property: "og:description",
-        content:
-          "Autonomous browser agents. Paid in ADA. Verified on Cardano.",
+        content: "Autonomous browser agents. Paid in ADA. Verified on Cardano.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/" },
@@ -115,8 +114,8 @@ function Hero() {
         </h1>
 
         <p className="mt-6 max-w-xl text-[15px] leading-relaxed text-white/75 [text-shadow:0_1px_12px_rgba(0,0,0,0.9)]">
-          Autonomous browser missions with cryptographic proof-of-execution,
-          settled in ADA — in seconds.
+          Autonomous browser missions with cryptographic proof-of-execution, settled in ADA — in
+          seconds.
         </p>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
@@ -195,20 +194,17 @@ function toneClasses(t: "live" | "safe" | "warn") {
 
 function Playground() {
   const [active, setActive] = useState(PLAYGROUND_AGENTS[0].id);
-  const current =
-    PLAYGROUND_AGENTS.find((a) => a.id === active) ?? PLAYGROUND_AGENTS[0];
+  const current = PLAYGROUND_AGENTS.find((a) => a.id === active) ?? PLAYGROUND_AGENTS[0];
 
   return (
     <section className="mx-auto max-w-7xl px-6 pb-32">
       <SectionLabel>Playground · Live demo</SectionLabel>
       <h2 className="max-w-3xl text-[36px] font-normal leading-[1.08] tracking-[-0.02em] text-white [font-family:var(--font-serif)] md:text-[52px]">
-        Run a real mission on{" "}
-        <span className="italic text-[color:var(--accent)]">Preprod</span>.
+        Run a real mission on <span className="italic text-[color:var(--accent)]">Preprod</span>.
       </h2>
       <p className="mt-4 max-w-2xl text-[14px] leading-relaxed text-white/55">
-        Pick an agent below to load a signed report from a genuine on-chain
-        mission. Every trace here was produced by the runtime, not
-        hand-written.
+        Pick an agent below to load a signed report from a genuine on-chain mission. Every trace
+        here was produced by the runtime, not hand-written.
       </p>
 
       <BorderGlow
@@ -220,212 +216,201 @@ function Playground() {
         edgeSensitivity={30}
         colors={CARD_GLOW_COLORS}
       >
-      <div className="overflow-hidden rounded-2xl bg-[#0d0d0d]">
-        {/* window chrome */}
-        <div className="flex items-center justify-between border-b border-white/10 bg-black/40 px-5 py-3">
-          <div className="flex items-center gap-2">
-            <span className="h-2.5 w-2.5 rounded-full bg-red-500/70" />
-            <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/70" />
-            <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/70" />
-            <span className="ml-4 font-mono text-[11px] uppercase tracking-widest text-white/40">
-              argo playground
-            </span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-white/60">
-              <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--accent)]" />
-              preprod · demo mode
-            </span>
-            <span className="hidden rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-white/60 sm:inline-flex">
-              5 events loaded
-            </span>
-          </div>
-        </div>
-
-        <div className="grid md:grid-cols-[280px_1fr]">
-          {/* left column: agents */}
-          <div className="border-b border-white/10 md:border-b-0 md:border-r">
-            <div className="flex items-center justify-between border-b border-white/10 px-5 py-3 font-mono text-[10px] uppercase tracking-widest text-white/40">
-              <span>Agents</span>
-              <span className="rounded border border-white/10 px-1.5 py-0.5 text-white/50">
-                3
+        <div className="overflow-hidden rounded-2xl bg-[#0d0d0d]">
+          {/* window chrome */}
+          <div className="flex items-center justify-between border-b border-white/10 bg-black/40 px-5 py-3">
+            <div className="flex items-center gap-2">
+              <span className="h-2.5 w-2.5 rounded-full bg-red-500/70" />
+              <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/70" />
+              <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/70" />
+              <span className="ml-4 font-mono text-[11px] uppercase tracking-widest text-white/40">
+                argo playground
               </span>
             </div>
-            <ul>
-              {PLAYGROUND_AGENTS.map((a) => {
-                const isOn = a.id === active;
-                return (
-                  <li key={a.id}>
-                    <button
-                      onClick={() => setActive(a.id)}
-                      className={`flex w-full items-center justify-between border-b border-white/5 px-5 py-4 text-left transition ${
-                        isOn ? "bg-white/[0.05]" : "hover:bg-white/[0.03]"
-                      }`}
-                    >
-                      <div>
-                        <div className="text-[13px] text-white">{a.name}</div>
-                        <div className="mt-1 flex items-center gap-1.5">
-                          <span
-                            className={`h-1.5 w-1.5 rounded-full ${
-                              a.tone === "live"
-                                ? "bg-[color:var(--accent)]"
-                                : a.tone === "safe"
-                                  ? "bg-emerald-400"
-                                  : "bg-yellow-300"
-                            }`}
-                          />
-                          <span
-                            className={`font-mono text-[10px] uppercase tracking-wider ${toneClasses(a.tone)}`}
-                          >
-                            {a.tag}
-                          </span>
-                          <span className="font-mono text-[10px] text-white/40">
-                            {a.did}
-                          </span>
-                        </div>
-                      </div>
-                      <span className="font-mono text-[12px] text-white/70">
-                        {a.score}
-                      </span>
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-            <div className="px-5 py-4 font-mono text-[10px] text-white/40">
-              Paste any Masumi DID + mission ID on preprod.
+            <div className="flex items-center gap-3">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-white/60">
+                <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--accent)]" />
+                preprod · demo mode
+              </span>
+              <span className="hidden rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-white/60 sm:inline-flex">
+                5 events loaded
+              </span>
             </div>
           </div>
 
-          {/* right column: report */}
-          <div className="flex flex-col">
-            <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
-              <div className="flex items-center gap-4">
-                <div className="grid h-14 w-14 place-items-center rounded-full border border-[color:var(--accent)]/40 text-[color:var(--accent)]">
-                  <div className="text-center">
-                    <div className="font-mono text-[13px] leading-none">
-                      {current.score}
+          <div className="grid md:grid-cols-[280px_1fr]">
+            {/* left column: agents */}
+            <div className="border-b border-white/10 md:border-b-0 md:border-r">
+              <div className="flex items-center justify-between border-b border-white/10 px-5 py-3 font-mono text-[10px] uppercase tracking-widest text-white/40">
+                <span>Agents</span>
+                <span className="rounded border border-white/10 px-1.5 py-0.5 text-white/50">
+                  3
+                </span>
+              </div>
+              <ul>
+                {PLAYGROUND_AGENTS.map((a) => {
+                  const isOn = a.id === active;
+                  return (
+                    <li key={a.id}>
+                      <button
+                        onClick={() => setActive(a.id)}
+                        className={`flex w-full items-center justify-between border-b border-white/5 px-5 py-4 text-left transition ${
+                          isOn ? "bg-white/[0.05]" : "hover:bg-white/[0.03]"
+                        }`}
+                      >
+                        <div>
+                          <div className="text-[13px] text-white">{a.name}</div>
+                          <div className="mt-1 flex items-center gap-1.5">
+                            <span
+                              className={`h-1.5 w-1.5 rounded-full ${
+                                a.tone === "live"
+                                  ? "bg-[color:var(--accent)]"
+                                  : a.tone === "safe"
+                                    ? "bg-emerald-400"
+                                    : "bg-yellow-300"
+                              }`}
+                            />
+                            <span
+                              className={`font-mono text-[10px] uppercase tracking-wider ${toneClasses(a.tone)}`}
+                            >
+                              {a.tag}
+                            </span>
+                            <span className="font-mono text-[10px] text-white/40">{a.did}</span>
+                          </div>
+                        </div>
+                        <span className="font-mono text-[12px] text-white/70">{a.score}</span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+              <div className="px-5 py-4 font-mono text-[10px] text-white/40">
+                Paste any Masumi DID + mission ID on preprod.
+              </div>
+            </div>
+
+            {/* right column: report */}
+            <div className="flex flex-col">
+              <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
+                <div className="flex items-center gap-4">
+                  <div className="grid h-14 w-14 place-items-center rounded-full border border-[color:var(--accent)]/40 text-[color:var(--accent)]">
+                    <div className="text-center">
+                      <div className="font-mono text-[13px] leading-none">{current.score}</div>
+                      <div className="mt-0.5 font-mono text-[8px] uppercase tracking-widest text-white/40">
+                        trust
+                      </div>
                     </div>
-                    <div className="mt-0.5 font-mono text-[8px] uppercase tracking-widest text-white/40">
-                      trust
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[15px] font-medium text-white">{current.name}</span>
+                      <span
+                        className={`rounded border px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider ${
+                          current.tone === "live"
+                            ? "border-[color:var(--accent)]/40 text-[color:var(--accent)]"
+                            : current.tone === "safe"
+                              ? "border-emerald-400/40 text-emerald-300"
+                              : "border-yellow-400/40 text-yellow-300"
+                        }`}
+                      >
+                        {current.tag}
+                      </span>
+                    </div>
+                    <div className="mt-1 font-mono text-[11px] text-white/50">
+                      {current.did} · slot 78,412,900 → 78,412,948
                     </div>
                   </div>
                 </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-[15px] font-medium text-white">
-                      {current.name}
-                    </span>
+                <div className="hidden gap-1.5 sm:flex">
+                  {[
+                    ["C", "2"],
+                    ["H", "1"],
+                    ["L", "1"],
+                    ["I", "1"],
+                  ].map(([k, v]) => (
                     <span
-                      className={`rounded border px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider ${
-                        current.tone === "live"
-                          ? "border-[color:var(--accent)]/40 text-[color:var(--accent)]"
-                          : current.tone === "safe"
-                            ? "border-emerald-400/40 text-emerald-300"
-                            : "border-yellow-400/40 text-yellow-300"
-                      }`}
+                      key={k}
+                      className="rounded border border-white/10 bg-white/[0.03] px-2 py-1 font-mono text-[10px] text-white/70"
                     >
-                      {current.tag}
+                      <span className="text-[color:var(--accent)]">{k}</span>{" "}
+                      <span className="ml-1">{v}</span>
                     </span>
-                  </div>
-                  <div className="mt-1 font-mono text-[11px] text-white/50">
-                    {current.did} · slot 78,412,900 → 78,412,948
-                  </div>
+                  ))}
                 </div>
               </div>
-              <div className="hidden gap-1.5 sm:flex">
-                {[
-                  ["C", "2"],
-                  ["H", "1"],
-                  ["L", "1"],
-                  ["I", "1"],
-                ].map(([k, v]) => (
-                  <span
-                    key={k}
-                    className="rounded border border-white/10 bg-white/[0.03] px-2 py-1 font-mono text-[10px] text-white/70"
+
+              <div className="flex items-center gap-6 border-b border-white/10 px-6 py-3 font-mono text-[11px] text-white/50">
+                <span className="text-white">
+                  Trace <span className="ml-1 text-white/50">5</span>
+                </span>
+                <span>
+                  Steps <span className="text-white/40">3</span>
+                </span>
+                <span>
+                  Sources <span className="text-white/40">4</span>
+                </span>
+                <span>
+                  Payout <span className="text-white/40">1</span>
+                </span>
+              </div>
+
+              <div className="space-y-2 p-5">
+                {PLAYGROUND_FINDINGS.map((f, i) => (
+                  <div
+                    key={i}
+                    className={`flex items-center justify-between rounded-md border px-3 py-3 ${
+                      f.tag === "C"
+                        ? "border-[color:var(--accent)]/25 bg-[color:var(--accent)]/[0.04]"
+                        : f.tag === "H"
+                          ? "border-yellow-500/25 bg-yellow-500/[0.04]"
+                          : "border-white/10 bg-white/[0.02]"
+                    }`}
                   >
-                    <span className="text-[color:var(--accent)]">{k}</span>{" "}
-                    <span className="ml-1">{v}</span>
-                  </span>
+                    <div className="flex items-center gap-3">
+                      <span
+                        className={`grid h-5 w-5 place-items-center rounded font-mono text-[10px] ${
+                          f.tag === "C"
+                            ? "bg-[color:var(--accent)]/20 text-[color:var(--accent)]"
+                            : f.tag === "H"
+                              ? "bg-yellow-500/20 text-yellow-300"
+                              : "bg-white/10 text-white/70"
+                        }`}
+                      >
+                        {f.tag}
+                      </span>
+                      <span className="font-mono text-[11px] text-white/80">{f.label}</span>
+                      <span className="font-mono text-[11px] text-white/45">{f.target}</span>
+                    </div>
+                    <ArrowRight className="h-3 w-3 text-white/30" />
+                  </div>
                 ))}
               </div>
-            </div>
 
-            <div className="flex items-center gap-6 border-b border-white/10 px-6 py-3 font-mono text-[11px] text-white/50">
-              <span className="text-white">
-                Trace <span className="ml-1 text-white/50">5</span>
-              </span>
-              <span>Steps <span className="text-white/40">3</span></span>
-              <span>Sources <span className="text-white/40">4</span></span>
-              <span>Payout <span className="text-white/40">1</span></span>
-            </div>
-
-            <div className="space-y-2 p-5">
-              {PLAYGROUND_FINDINGS.map((f, i) => (
-                <div
-                  key={i}
-                  className={`flex items-center justify-between rounded-md border px-3 py-3 ${
-                    f.tag === "C"
-                      ? "border-[color:var(--accent)]/25 bg-[color:var(--accent)]/[0.04]"
-                      : f.tag === "H"
-                        ? "border-yellow-500/25 bg-yellow-500/[0.04]"
-                        : "border-white/10 bg-white/[0.02]"
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <span
-                      className={`grid h-5 w-5 place-items-center rounded font-mono text-[10px] ${
-                        f.tag === "C"
-                          ? "bg-[color:var(--accent)]/20 text-[color:var(--accent)]"
-                          : f.tag === "H"
-                            ? "bg-yellow-500/20 text-yellow-300"
-                            : "bg-white/10 text-white/70"
-                      }`}
-                    >
-                      {f.tag}
-                    </span>
-                    <span className="font-mono text-[11px] text-white/80">
-                      {f.label}
-                    </span>
-                    <span className="font-mono text-[11px] text-white/45">
-                      {f.target}
-                    </span>
-                  </div>
-                  <ArrowRight className="h-3 w-3 text-white/30" />
+              <div className="mt-auto flex items-center justify-between border-t border-white/10 px-6 py-3 font-mono text-[11px] text-white/50">
+                <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
+                  <span>
+                    Steps run <span className="ml-1 text-white">3</span>
+                  </span>
+                  <span>
+                    Sources cited <span className="ml-1 text-white">4</span>
+                  </span>
+                  <span>
+                    ADA settled <span className="ml-1 text-[color:var(--accent)]">2 ₳</span>
+                  </span>
                 </div>
-              ))}
-            </div>
-
-            <div className="mt-auto flex items-center justify-between border-t border-white/10 px-6 py-3 font-mono text-[11px] text-white/50">
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
-                <span>
-                  Steps run{" "}
-                  <span className="ml-1 text-white">3</span>
-                </span>
-                <span>
-                  Sources cited{" "}
-                  <span className="ml-1 text-white">4</span>
-                </span>
-                <span>
-                  ADA settled{" "}
-                  <span className="ml-1 text-[color:var(--accent)]">2 ₳</span>
-                </span>
-              </div>
-              <div className="flex items-center gap-4">
-                <button className="text-white/60 hover:text-white">
-                  Export JSON
-                </button>
-                <Link
-                  to="/verify"
-                  className="inline-flex items-center gap-1 text-white/80 hover:text-white"
-                >
-                  Share report <ArrowUpRight className="h-3 w-3" />
-                </Link>
+                <div className="flex items-center gap-4">
+                  <button className="text-white/60 hover:text-white">Export JSON</button>
+                  <Link
+                    to="/verify"
+                    className="inline-flex items-center gap-1 text-white/80 hover:text-white"
+                  >
+                    Share report <ArrowUpRight className="h-3 w-3" />
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
       </BorderGlow>
     </section>
   );
@@ -439,43 +424,37 @@ const STEPS = [
   {
     n: "01",
     title: "Connect a Cardano wallet",
-    body:
-      "CIP-30 handshake with Eternl, Lace, or Nami on Preprod. Argo reads the address, network, and available balance — no seed phrase, no custody.",
+    body: "CIP-30 handshake with Eternl, Lace, or Nami on Preprod. Argo reads the address, network, and available balance — no seed phrase, no custody.",
     chip: "window.cardano[wallet].enable()",
   },
   {
     n: "02",
     title: "Draft the mission",
-    body:
-      "Describe the task in plain English. Cerebras-hosted Llama 3.3 70B produces a signed plan: URLs to visit, DOM patterns to extract, synthesis prompt.",
+    body: "Describe the task in plain English. Cerebras-hosted Llama 3.3 70B produces a signed plan: URLs to visit, DOM patterns to extract, synthesis prompt.",
     chip: "prompt → plan { steps, sources[], budget_ada }",
   },
   {
     n: "03",
     title: "Escrow ADA on-chain",
-    body:
-      "A Preprod tx locks the mission price into a Masumi escrow. The agent cannot spend it until proof-of-execution verifies.",
+    body: "A Preprod tx locks the mission price into a Masumi escrow. The agent cannot spend it until proof-of-execution verifies.",
     chip: "tx.build → sign → submit → confirmed(1)",
   },
   {
     n: "04",
     title: "Steel runs the browser",
-    body:
-      "A remote Chromium session opens each URL, waits for hydration, extracts the DOM, captures screenshots. Every step is timestamped.",
+    body: "A remote Chromium session opens each URL, waits for hydration, extracts the DOM, captures screenshots. Every step is timestamped.",
     chip: "steel.session → nav → extract → snapshot",
   },
   {
     n: "05",
     title: "Sign proof-of-execution",
-    body:
-      "The full trace (plan → sources → answer → screenshots) is Ed25519-signed by the agent DID, hashed with blake2b-256.",
+    body: "The full trace (plan → sources → answer → screenshots) is Ed25519-signed by the agent DID, hashed with blake2b-256.",
     chip: "ed25519(sign) → blake2b(digest) → PoE",
   },
   {
     n: "06",
     title: "Anchor & settle",
-    body:
-      "PoE hash posts as tx metadata via Blockfrost. Escrow releases ADA to the agent. Anyone can /verify the mission by hash.",
+    body: "PoE hash posts as tx metadata via Blockfrost. Escrow releases ADA to the agent. Anyone can /verify the mission by hash.",
     chip: "metadata_label:674 → payout → verifiable",
   },
 ];
@@ -489,8 +468,8 @@ function HowItWorks() {
         <span className="italic text-[color:var(--accent)]">a minute</span>.
       </h2>
       <p className="mt-4 max-w-2xl text-[14px] leading-relaxed text-white/55">
-        No servers to babysit. Argo composes wallet, browser, LLM, and Cardano
-        settlement into one deterministic pipeline.
+        No servers to babysit. Argo composes wallet, browser, LLM, and Cardano settlement into one
+        deterministic pipeline.
       </p>
 
       <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -511,12 +490,8 @@ function HowItWorks() {
                 <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-white/40">
                   Step {s.n}
                 </div>
-                <h3 className="mt-3 text-[17px] font-medium text-white">
-                  {s.title}
-                </h3>
-                <p className="mt-2 text-[13px] leading-relaxed text-white/55">
-                  {s.body}
-                </p>
+                <h3 className="mt-3 text-[17px] font-medium text-white">{s.title}</h3>
+                <p className="mt-2 text-[13px] leading-relaxed text-white/55">{s.body}</p>
               </div>
               <CodeChip>{s.chip}</CodeChip>
             </div>
@@ -535,78 +510,67 @@ const GUARANTEES = [
   {
     tag: "SIGNED_TRACE",
     level: "CRITICAL",
-    body:
-      "Every mission returns an Ed25519 signature over the plan, sources, and answer. Unsigned output is discarded.",
+    body: "Every mission returns an Ed25519 signature over the plan, sources, and answer. Unsigned output is discarded.",
     example: "e.g. sig = ed25519(agent_sk, blake2b(trace))",
   },
   {
     tag: "ONCHAIN_ANCHOR",
     level: "CRITICAL",
-    body:
-      "The PoE hash is posted as Cardano tx metadata. If it's not on-chain, no ADA is released.",
+    body: "The PoE hash is posted as Cardano tx metadata. If it's not on-chain, no ADA is released.",
     example: "e.g. metadata:674 = { poe_hash, mission_id }",
   },
   {
     tag: "ESCROW_ENFORCED",
     level: "CRITICAL",
-    body:
-      "Payment sits in a Masumi escrow. Agent cannot spend it until the buyer's verifier accepts the PoE.",
+    body: "Payment sits in a Masumi escrow. Agent cannot spend it until the buyer's verifier accepts the PoE.",
     example: "e.g. lock(2 ₳, agent_did) → release(poe_valid)",
   },
   {
     tag: "DETERMINISTIC_PLAN",
     level: "HIGH",
-    body:
-      "The plan is generated once and signed. Steel then executes that exact plan — no silent re-planning mid-flight.",
+    body: "The plan is generated once and signed. Steel then executes that exact plan — no silent re-planning mid-flight.",
     example: "e.g. plan_hash frozen before browser opens",
   },
   {
     tag: "SANDBOXED_BROWSER",
     level: "HIGH",
-    body:
-      "Steel spins up an isolated Chromium per mission. No shared cookies, no cross-mission state.",
+    body: "Steel spins up an isolated Chromium per mission. No shared cookies, no cross-mission state.",
     example: "e.g. session.id = uuid() · TTL 120s",
   },
   {
     tag: "SOURCE_TRACEABILITY",
     level: "HIGH",
-    body:
-      "Every claim in the answer maps to a captured URL + timestamp + DOM snapshot. No hallucinated citations.",
+    body: "Every claim in the answer maps to a captured URL + timestamp + DOM snapshot. No hallucinated citations.",
     example: "e.g. answer.claims[i].source = sources[j]",
   },
   {
     tag: "BUDGET_CAP",
     level: "MEDIUM",
-    body:
-      "Missions abort if projected cost exceeds the escrowed ADA. No overruns billed silently.",
+    body: "Missions abort if projected cost exceeds the escrowed ADA. No overruns billed silently.",
     example: "e.g. abort_if( est_lovelace > escrow )",
   },
   {
     tag: "REPLAYABLE_RUN",
     level: "MEDIUM",
-    body:
-      "Full trace + screenshots are content-addressed. Anyone can rerun the verifier against the raw evidence.",
+    body: "Full trace + screenshots are content-addressed. Anyone can rerun the verifier against the raw evidence.",
     example: "e.g. argo verify <mission_id>",
   },
   {
     tag: "NETWORK_PINNED",
     level: "MEDIUM",
-    body:
-      "Wallet network is checked pre-escrow. Mainnet ADA cannot accidentally land in a Preprod mission.",
+    body: "Wallet network is checked pre-escrow. Mainnet ADA cannot accidentally land in a Preprod mission.",
     example: "e.g. require(networkId === 0)",
   },
   {
     tag: "OPEN_REPUTATION",
     level: "INFO",
-    body:
-      "Completed-mission counters live on Masumi. Any client can enumerate an agent's history before hiring.",
+    body: "Completed-mission counters live on Masumi. Any client can enumerate an agent's history before hiring.",
     example: "e.g. masumi.reputation(did) → { runs, ok, avg_ms }",
   },
 ];
 
 function levelClasses(l: string) {
-  if (l === "CRITICAL")
-    return "border-[color:var(--accent)]/60 text-[color:var(--accent)]";
+  if (l === "CRITICAL") return "border-[color:var(--accent)]/60 text-[color:var(--accent)]";
   if (l === "HIGH") return "border-yellow-500/50 text-yellow-300";
   if (l === "MEDIUM") return "border-orange-400/40 text-orange-300";
   return "border-white/20 text-white/60";
@@ -621,26 +585,22 @@ function GuaranteesGrid() {
         <span className="italic text-[color:var(--accent)]">accountable</span>.
       </h2>
       <p className="mt-4 max-w-2xl text-[14px] leading-relaxed text-white/55">
-        Every rule is enforced by the runtime, not by trust. If a mission
-        violates a CRITICAL invariant, no ADA moves — period.
+        Every rule is enforced by the runtime, not by trust. If a mission violates a CRITICAL
+        invariant, no ADA moves — period.
       </p>
 
       <div className="mt-12 grid gap-px overflow-hidden rounded-2xl bg-white/10 md:grid-cols-2 lg:grid-cols-3">
         {GUARANTEES.map((g) => (
           <div key={g.tag} className="flex flex-col bg-[#0a0a0a] p-6">
             <div className="flex items-start justify-between gap-3">
-              <span className="font-mono text-[11px] text-white/85">
-                {g.tag}
-              </span>
+              <span className="font-mono text-[11px] text-white/85">{g.tag}</span>
               <span
                 className={`shrink-0 rounded border px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider ${levelClasses(g.level)}`}
               >
                 {g.level}
               </span>
             </div>
-            <p className="mt-3 text-[13px] leading-relaxed text-white/60">
-              {g.body}
-            </p>
+            <p className="mt-3 text-[13px] leading-relaxed text-white/60">{g.body}</p>
             <div className="mt-5 rounded-md border border-white/10 bg-black/50 px-3 py-2 font-mono text-[11px] text-white/50">
               {g.example}
             </div>
@@ -652,8 +612,8 @@ function GuaranteesGrid() {
         <div>
           <div className="text-[14px] text-white">New agent skills</div>
           <div className="mt-1 text-[12px] text-white/55">
-            Agents are open-source templates. Fork, extend, and register on
-            Masumi — approvals happen via PR.
+            Agents are open-source templates. Fork, extend, and register on Masumi — approvals
+            happen via PR.
           </div>
         </div>
         <a
@@ -738,12 +698,10 @@ function Integrations() {
     <section className="mx-auto max-w-7xl px-6 pb-32">
       <SectionLabel>Integrations</SectionLabel>
       <h2 className="max-w-3xl text-[36px] font-normal leading-[1.08] tracking-[-0.02em] text-white [font-family:var(--font-serif)] md:text-[52px]">
-        Fits into your existing{" "}
-        <span className="italic text-[color:var(--accent)]">stack</span>.
+        Fits into your existing <span className="italic text-[color:var(--accent)]">stack</span>.
       </h2>
       <p className="mt-4 max-w-2xl text-[14px] leading-relaxed text-white/55">
-        Web UI, CLI, TypeScript SDK, or a webhook. One agent gateway, every
-        entry point.
+        Web UI, CLI, TypeScript SDK, or a webhook. One agent gateway, every entry point.
       </p>
 
       <div className="mt-10 grid gap-4 md:grid-cols-3">
@@ -752,7 +710,7 @@ function Integrations() {
           sub="npx argo"
           copyText={`npx argo run "digest today's Cardano news" \\\n  --agent hn-digest \\\n  --pay 2ada \\\n  --network preprod`}
         >
-{`$ npx argo run "digest today's Cardano news" \\
+          {`$ npx argo run "digest today's Cardano news" \\
     --agent hn-digest \\
     --pay 2ada \\
     --network preprod`}
@@ -763,7 +721,7 @@ function Integrations() {
           sub="@argo/sdk"
           copyText={`import { hireAgent } from "@argo/sdk";\n\nconst mission = await hireAgent({\n  did: "did:masumi:argo…7f3a",\n  prompt: "top 5 items on HN today",\n  budget: 2_000_000n,\n});\nconsole.log(mission.poeHash);`}
         >
-{`import { hireAgent } from "@argo/sdk";
+          {`import { hireAgent } from "@argo/sdk";
 
 const mission = await hireAgent({
   did: "did:masumi:argo…7f3a",
@@ -778,7 +736,7 @@ console.log(mission.poeHash);`}
           sub="argo-webhook"
           copyText={`POST https://argo.app/api/public/mission\nAuthorization: Bearer $ARGO_KEY\n{\n  "agent": "ai-analyst",\n  "prompt": "summarize this thread",\n  "callback": "https://you.app/hooks/argo"\n}`}
         >
-{`POST https://argo.app/api/public/mission
+          {`POST https://argo.app/api/public/mission
 Authorization: Bearer $ARGO_KEY
 
 {
@@ -799,9 +757,9 @@ Authorization: Bearer $ARGO_KEY
             Immutable, content-addressed missions.
           </h3>
           <p className="mt-2 max-w-xl text-[13px] leading-relaxed text-white/55">
-            Every Argo mission is hashed with blake2b-256 and anchored on
-            Cardano. Buyers, auditors, and DAOs can attach the mission hash to
-            any proposal — if the hash resolves, it's the same trace that ran.
+            Every Argo mission is hashed with blake2b-256 and anchored on Cardano. Buyers, auditors,
+            and DAOs can attach the mission hash to any proposal — if the hash resolves, it's the
+            same trace that ran.
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
             {["Masumi Registry", "Blockfrost anchor", "Steel browser", "Cerebras inference"].map(
@@ -852,9 +810,7 @@ function Closing() {
             If Argo ships one paid mission,
             <br />
             it pays for itself{" "}
-            <span className="italic text-[color:var(--accent)]">
-              a thousand times over.
-            </span>
+            <span className="italic text-[color:var(--accent)]">a thousand times over.</span>
           </h2>
           <p className="mt-4 text-[14px] text-white/55">
             Try the playground. Hire an agent. Fork the runtime.
@@ -891,8 +847,8 @@ function Footer() {
             <span className="text-[15px] font-semibold">Argo</span>
           </div>
           <p className="mt-4 max-w-xs text-[13px] leading-relaxed text-white/50">
-            Web-to-Cardano agent gateway. Open-source runtime for paid,
-            verifiable AI browser missions.
+            Web-to-Cardano agent gateway. Open-source runtime for paid, verifiable AI browser
+            missions.
           </p>
         </div>
 
@@ -925,8 +881,7 @@ function Footer() {
       <div className="border-t border-white/5">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-6 py-5 font-mono text-[11px] text-white/40">
           <span>
-            Built for <span className="text-white/70">IndiaCodex '26</span> ·
-            MIT © 2026
+            Built for <span className="text-white/70">IndiaCodex '26</span> · MIT © 2026
           </span>
           <span className="flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--accent)]" />
@@ -943,9 +898,7 @@ type FooterItem = { label: string; to?: string; href?: string };
 function FooterCol({ title, items }: { title: string; items: FooterItem[] }) {
   return (
     <div>
-      <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-white/40">
-        {title}
-      </div>
+      <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-white/40">{title}</div>
       <ul className="mt-4 space-y-2 text-[13px]">
         {items.map((it) =>
           it.to ? (

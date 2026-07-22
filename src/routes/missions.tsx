@@ -49,14 +49,11 @@ function MissionsPage() {
           </span>
           <h1 className="mt-3 text-[40px] font-semibold leading-[1.02] tracking-[-0.02em] text-white md:text-[56px]">
             Your{" "}
-            <span className="[font-family:var(--font-serif)] italic font-normal">
-              missions
-            </span>
-            .
+            <span className="[font-family:var(--font-serif)] italic font-normal">missions</span>.
           </h1>
           <p className="mt-3 max-w-xl text-[14px] text-white/60">
-            Persisted in Postgres, keyed by your wallet address. Connect the
-            same wallet on any device to see the same history.
+            Persisted in Postgres, keyed by your wallet address. Connect the same wallet on any
+            device to see the same history.
           </p>
         </div>
         <SpecularButton
@@ -137,7 +134,9 @@ function MissionsPage() {
                       lineColor="#eac83c"
                       baseColor="#7C3AED"
                       intensity={1.0}
-                      onClick={() => navigate({ to: "/mission/$missionId", params: { missionId: m.id } })}
+                      onClick={() =>
+                        navigate({ to: "/mission/$missionId", params: { missionId: m.id } })
+                      }
                       className="font-medium"
                     >
                       <span className="flex items-center gap-1.5">

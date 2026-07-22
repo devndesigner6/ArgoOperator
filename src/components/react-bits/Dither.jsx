@@ -1,11 +1,11 @@
 /* eslint-disable react/no-unknown-property */
-import { useRef, useEffect, forwardRef, useMemo } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { EffectComposer, wrapEffect } from '@react-three/postprocessing';
-import { Effect } from 'postprocessing';
-import * as THREE from 'three';
+import { useRef, useEffect, forwardRef, useMemo } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { EffectComposer, wrapEffect } from "@react-three/postprocessing";
+import { Effect } from "postprocessing";
+import * as THREE from "three";
 
-import './Dither.css';
+import "./Dither.css";
 
 const waveVertexShader = `
 precision highp float;
@@ -138,30 +138,30 @@ void mainImage(in vec4 inputColor, in vec2 uv, out vec4 outputColor) {
 class RetroEffectImpl extends Effect {
   constructor() {
     const uniforms = new Map([
-      ['colorNum', new THREE.Uniform(4.0)],
-      ['pixelSize', new THREE.Uniform(2.0)],
-      ['u_resolution', new THREE.Uniform(new THREE.Vector2(0, 0))]
+      ["colorNum", new THREE.Uniform(4.0)],
+      ["pixelSize", new THREE.Uniform(2.0)],
+      ["u_resolution", new THREE.Uniform(new THREE.Vector2(0, 0))],
     ]);
-    super('RetroEffect', ditherFragmentShader, { uniforms });
+    super("RetroEffect", ditherFragmentShader, { uniforms });
     this.uniforms = uniforms;
   }
   set colorNum(v) {
-    this.uniforms.get('colorNum').value = v;
+    this.uniforms.get("colorNum").value = v;
   }
   get colorNum() {
-    return this.uniforms.get('colorNum').value;
+    return this.uniforms.get("colorNum").value;
   }
   set pixelSize(v) {
-    this.uniforms.get('pixelSize').value = v;
+    this.uniforms.get("pixelSize").value = v;
   }
   get pixelSize() {
-    return this.uniforms.get('pixelSize').value;
+    return this.uniforms.get("pixelSize").value;
   }
   set u_resolution(v) {
-    this.uniforms.get('u_resolution').value = v;
+    this.uniforms.get("u_resolution").value = v;
   }
   get u_resolution() {
-    return this.uniforms.get('u_resolution').value;
+    return this.uniforms.get("u_resolution").value;
   }
 }
 
@@ -169,9 +169,11 @@ const WrappedRetro = wrapEffect(RetroEffectImpl);
 
 const RetroEffect = forwardRef((props, ref) => {
   const { colorNum, pixelSize, u_resolution } = props;
-  return <WrappedRetro ref={ref} colorNum={colorNum} pixelSize={pixelSize} u_resolution={u_resolution} />;
+  return (
+    <WrappedRetro ref={ref} colorNum={colorNum} pixelSize={pixelSize} u_resolution={u_resolution} />
+  );
 });
-RetroEffect.displayName = 'RetroEffect';
+RetroEffect.displayName = "RetroEffect";
 
 function DitheredWaves({
   waveSpeed,
@@ -182,13 +184,16 @@ function DitheredWaves({
   pixelSize,
   disableAnimation,
   enableMouseInteraction,
-  mouseRadius
+  mouseRadius,
 }) {
   const mesh = useRef(null);
   const mouseRef = useRef(new THREE.Vector2());
   const { viewport, size, gl } = useThree();
   const pixelRatio = gl.getPixelRatio();
-  const resolutionVec = useMemo(() => new THREE.Vector2(size.width * pixelRatio, size.height * pixelRatio), [size.width, size.height, pixelRatio]);
+  const resolutionVec = useMemo(
+    () => new THREE.Vector2(size.width * pixelRatio, size.height * pixelRatio),
+    [size.width, size.height, pixelRatio],
+  );
 
   const waveUniformsRef = useRef({
     time: new THREE.Uniform(0),
@@ -199,7 +204,7 @@ function DitheredWaves({
     waveColor: new THREE.Uniform(new THREE.Color(...waveColor)),
     mousePos: new THREE.Uniform(new THREE.Vector2(0, 0)),
     enableMouseInteraction: new THREE.Uniform(enableMouseInteraction ? 1 : 0),
-    mouseRadius: new THREE.Uniform(mouseRadius)
+    mouseRadius: new THREE.Uniform(mouseRadius),
   });
 
   useEffect(() => {
@@ -275,7 +280,7 @@ export default function Dither({
   pixelSize = 2,
   disableAnimation = false,
   enableMouseInteraction = true,
-  mouseRadius = 1
+  mouseRadius = 1,
 }) {
   return (
     <Canvas

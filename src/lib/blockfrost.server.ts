@@ -63,8 +63,7 @@ export async function verifyMissionTxOnChain(args: {
     block: string;
     output_amount: { unit: string; quantity: string }[];
   };
-  const lovelace =
-    tx.output_amount?.find((o) => o.unit === "lovelace")?.quantity ?? null;
+  const lovelace = tx.output_amount?.find((o) => o.unit === "lovelace")?.quantity ?? null;
 
   const metaRes = await bf(`/txs/${args.txHash}/metadata`, projectId);
   if (metaRes.status !== 200) {
@@ -80,9 +79,7 @@ export async function verifyMissionTxOnChain(args: {
   }
   const meta = (await metaRes.json()) as { label: string; json_metadata: unknown }[];
   const argoEntry = meta.find((m) => m.label === ARGO_METADATA_LABEL);
-  const argoJson = argoEntry?.json_metadata as
-    | { argo?: Partial<VelaChainCommit> }
-    | undefined;
+  const argoJson = argoEntry?.json_metadata as { argo?: Partial<VelaChainCommit> } | undefined;
   const raw = argoJson?.argo;
   const commit: VelaChainCommit | null =
     raw && typeof raw.missionId === "string" && typeof raw.agentId === "string"

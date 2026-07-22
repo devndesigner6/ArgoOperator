@@ -1,4 +1,12 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
 
 export type CIP30Api = {
   getUsedAddresses: () => Promise<string[]>;
@@ -6,10 +14,7 @@ export type CIP30Api = {
   getChangeAddress: () => Promise<string>;
   getNetworkId: () => Promise<number>;
   getBalance: () => Promise<string>; // hex CBOR
-  signData: (
-    addr: string,
-    payloadHex: string,
-  ) => Promise<{ signature: string; key: string }>;
+  signData: (addr: string, payloadHex: string) => Promise<{ signature: string; key: string }>;
 };
 
 export type CIP30Wallet = {
@@ -52,7 +57,7 @@ function decodeLovelace(hex: string): bigint | null {
     const bytes = hexToBytes(hex);
     return decodeUint(bytes, 0)?.value ?? null;
   } catch (e) {
-    reportLovableError(e, { boundary: "wallet.decodeLovelace" });
+    console.error("wallet.decodeLovelace error:", e);
     return null;
   }
 }
@@ -214,7 +219,20 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       connecting,
       error,
     }),
-    [name, address, networkId, lovelace, api, available, connect, disconnect, getFreshApi, signMessage, connecting, error],
+    [
+      name,
+      address,
+      networkId,
+      lovelace,
+      api,
+      available,
+      connect,
+      disconnect,
+      getFreshApi,
+      signMessage,
+      connecting,
+      error,
+    ],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

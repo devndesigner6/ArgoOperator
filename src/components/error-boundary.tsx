@@ -16,7 +16,11 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    console.error(`ErrorBoundary caught an error in boundary "${this.props.boundary ?? "app_error_boundary"}":`, error, info.componentStack);
+    console.error(
+      `ErrorBoundary caught an error in boundary "${this.props.boundary ?? "app_error_boundary"}":`,
+      error,
+      info.componentStack,
+    );
   }
 
   reset = () => this.setState({ error: null });

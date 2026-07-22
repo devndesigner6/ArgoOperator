@@ -39,7 +39,13 @@ export type ScoutStep = {
 };
 
 export type HnStory = { rank: number; title: string; url: string; points: number | null };
-export type GhRepo = { rank: number; repo: string; url: string; stars: string | null; description: string | null };
+export type GhRepo = {
+  rank: number;
+  repo: string;
+  url: string;
+  stars: string | null;
+  description: string | null;
+};
 
 export type MissionSignature = {
   algo: "ed25519";
@@ -116,11 +122,16 @@ function extractAnyPrice(md: string | undefined): { value: number; currency: str
     while ((m = re.exec(md))) {
       const raw = re === symbolFirst ? m[3] : m[1];
       const cur = (re === symbolFirst ? (m[1] ?? m[2]) : (m[2] ?? m[3])).toUpperCase();
-      const normalised = raw.includes(",") && raw.includes(".")
-        ? (raw.lastIndexOf(",") > raw.lastIndexOf(".") ? raw.replace(/\./g, "").replace(",", ".") : raw.replace(/,/g, ""))
-        : raw.includes(",")
-          ? (raw.match(/,\d{2}$/) ? raw.replace(",", ".") : raw.replace(/,/g, ""))
-          : raw;
+      const normalised =
+        raw.includes(",") && raw.includes(".")
+          ? raw.lastIndexOf(",") > raw.lastIndexOf(".")
+            ? raw.replace(/\./g, "").replace(",", ".")
+            : raw.replace(/,/g, "")
+          : raw.includes(",")
+            ? raw.match(/,\d{2}$/)
+              ? raw.replace(",", ".")
+              : raw.replace(/,/g, "")
+            : raw;
       const n = Number(normalised);
       if (Number.isFinite(n) && n > 0 && n < 10_000_000) {
         candidates.push({ value: n, currency: cur, index: m.index });
@@ -173,7 +184,9 @@ function parseGhTrending(md: string): GhRepo[] {
   const lines = md.split("\n");
   let rank = 0;
   for (let i = 0; i < lines.length && repos.length < 10; i++) {
-    const m = lines[i].match(/\[\s*([\w.-]+)\s*\/\s*([\w.-]+)\s*\]\((https?:\/\/github\.com\/[\w.\-/]+|\/[\w.\-/]+)\)/);
+    const m = lines[i].match(
+      /\[\s*([\w.-]+)\s*\/\s*([\w.-]+)\s*\]\((https?:\/\/github\.com\/[\w.\-/]+|\/[\w.\-/]+)\)/,
+    );
     if (!m) continue;
     const owner = m[1];
     const name = m[2];
@@ -185,7 +198,13 @@ function parseGhTrending(md: string): GhRepo[] {
     for (let j = 1; j <= 8 && i + j < lines.length; j++) {
       const l = lines[i + j].trim();
       if (!l) continue;
-      if (!description && !l.startsWith("[") && !l.startsWith("!") && !/stars?/i.test(l) && l.length > 8) {
+      if (
+        !description &&
+        !l.startsWith("[") &&
+        !l.startsWith("!") &&
+        !/stars?/i.test(l) &&
+        l.length > 8
+      ) {
         description = l.slice(0, 200);
       }
       const sm = l.match(/([\d,]+)\s+stars?\s+today/i);
@@ -255,8 +274,6 @@ export const runMission = createServerFn({ method: "POST" })
         amountLovelace: check.amountLovelace,
       };
     }
-
-
 
     const startedAt = Date.now();
     let targets: { url: string; label: string }[];
@@ -366,9 +383,10 @@ export const runMission = createServerFn({ method: "POST" })
           : `Fetched github.com/trending but couldn't parse the repo rows.`;
     } else if (mode === "price") {
       const s0 = steps[0];
-      summary = s0?.extractedPrice != null
-        ? `Scouted ${s0.label}. Extracted price: ${s0.priceCurrency ?? ""} ${s0.extractedPrice}.`
-        : `Scouted ${targets[0].url}. Page loaded but no price was extractable — see screenshot.`;
+      summary =
+        s0?.extractedPrice != null
+          ? `Scouted ${s0.label}. Extracted price: ${s0.priceCurrency ?? ""} ${s0.extractedPrice}.`
+          : `Scouted ${targets[0].url}. Page loaded but no price was extractable — see screenshot.`;
     } else {
       const ok = steps.filter((s) => s.ok).length;
       summary = `Scouted ${targets[0].url}. ${ok}/${steps.length} loaded. Rendered markdown + screenshot captured.`;
@@ -383,14 +401,19 @@ export const runMission = createServerFn({ method: "POST" })
       if (sources.length === 0) {
         analyst = {
           plan: analystPlan,
-          answer: "None of the planned sources returned readable content. See screenshots for evidence.",
+          answer:
+            "None of the planned sources returned readable content. See screenshots for evidence.",
           model: `${analystPlan.model ?? "gpt-oss-120b"} (cerebras)`,
         };
       } else {
         const { synthesizeAnswer } = await import("./cerebras.server");
         try {
           const synthesis = await synthesizeAnswer(data.prompt, analystPlan.focus, sources);
-          analyst = { plan: analystPlan, answer: synthesis.answer, model: `${synthesis.model} (cerebras)` };
+          analyst = {
+            plan: analystPlan,
+            answer: synthesis.answer,
+            model: `${synthesis.model} (cerebras)`,
+          };
         } catch (e) {
           analyst = {
             plan: analystPlan,
